@@ -1,0 +1,39 @@
+<!--Act as parent for all template-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Learning Management System</title>
+    <meta name='viewport' content='width=content-width, initial-scale=1'>
+    <!--<link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>-->
+
+    <style>
+        .main-container{
+            display: grid;
+            grid-template-columns: 1fr 5fr;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div>
+            <!--Each user have diff navbar, check by %if is_authenticated% -->
+            {% include 'navbar.html' %}
+        </div>
+        
+        <div>
+            {% block content %} <!--Tell the website where to wrap the child-->
+
+            {% endblock %}
+        </div>
+    </div>
+    
+</body>
+</html>
+
+

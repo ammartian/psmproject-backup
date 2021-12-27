@@ -1,0 +1,50 @@
+<style>
+    img {
+        border-radius: 50%;
+    }
+</style>
+
+
+<img src="" alt="user picture" width="150px">
+<br>
+
+<p>NAME</p>
+
+<p>MATRIKS NUMBER</p>
+<hr>
+
+<a href="{% url 'dashboard' %}"><p>DASHBOARD</p></a>
+<hr>
+
+
+<!--ADMIN-->
+{% if user.is_authenticated and user.is_staff %}
+
+<a href="{% url 'manage-course' %}"><p>MANAGE COURSE</p></a>
+<hr>
+
+<a href="{% url 'manage-lecturer' %}"><p>MANAGE LECTURER</p></a>
+<hr>
+
+<a href="{% url 'manage-student' %}"><p>MANAGE STUDENT</p></a>
+<hr>
+
+{% elif user.is_lecturer %}
+
+{% else %} <!--student-->
+
+{% endif %}
+
+
+
+<a href="{% url 'change-email' %}"><p>CHANGE EMAIL</p></a>
+<hr>
+
+<a href="{% url 'change-password' %}"><p>CHANGE PASSWORD</p></a>
+<hr>
+
+<a href="{% url 'session-management' %}"><p>SESSION MANAGEMENT</p></a>
+<hr>
+
+<a href="{% url 'logout' %}"><p>LOGOUT</p></a>
+<hr>

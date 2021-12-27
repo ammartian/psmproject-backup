@@ -1,0 +1,39 @@
+{% extends 'login.html' %}
+
+{% block content %}
+
+<h1>Login Page</h1>
+
+<div>
+    <form method="POST" action=""> <!--go to dashboard after login-->
+        {% csrf_token %}
+    
+        <label>Username:</label>
+        <input type="text" name="username" placeholder="Enter username">
+        <br>
+    
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="Enter password">
+        <br>
+
+        <!--<input type="checkbox" id="box" onclick="showPass()">Show Password
+        <br>-->
+    
+        <input type="submit" value="Login">
+    </form>
+    
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <a href="/">Forgot password?</a>
+</div>
+
+<div></div>
+
+
+{% endblock %}

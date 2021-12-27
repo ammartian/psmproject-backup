@@ -56,7 +56,9 @@ ROOT_URLCONF = 'slms_psm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,7 +80,7 @@ WSGI_APPLICATION = 'slms_psm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'psm_database',
+        'NAME': 'psm_slms',
         'USER': 'root',
         'PASSWORD': 'root',
         'PORT': 3306,
