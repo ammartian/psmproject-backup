@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
 ]
 
+AUTH_USER_MODEL = 'base.User' #change the Django built-in user model to ours
+
+# AUTHENTICATION_BACKENDS = ( 
+#     'django.contrib.auth.backends.ModelBackend', 
+# )
+
+#SESSION_COOKIE_DOMAIN = 'localhost'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -80,11 +88,14 @@ WSGI_APPLICATION = 'slms_psm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'psm_slms',
+        'NAME': 'slms_psm',
         'USER': 'root',
         'PASSWORD': 'root',
         'PORT': 3306,
         'HOST': 'localhost',
+        'OPTIONS': {
+         "init_command": "SET foreign_key_checks = 0;",
+    },
     }
 }
 
