@@ -1,68 +1,68 @@
 from django.db import models
 from django.contrib.auth.models import ( #to custom our own user model
-     AbstractBaseUser, BaseUserManager
+    AbstractBaseUser, BaseUserManager
 )
 
 # Create your models here.
 
 class UserManager(BaseUserManager):
-     pass
-     def create_user(self, email, password=None, is_active=True, is_admin=False, is_staff=False, is_lecturer=False, is_student=False): # THIS IS A REQUIRED_FIELDS TO CREATE USER
-         if not email:
-             raise ValueError("Email is required")
-         if not password:
-             raise ValueError("Password is required")
+    pass
+    def create_user(self, email, password=None, is_active=True, is_admin=False, is_staff=False, is_lecturer=False, is_student=False): # THIS IS A REQUIRED_FIELDS TO CREATE USER
+        if not email:
+            raise ValueError("Email is required")
+        if not password:
+            raise ValueError("Password is required")
 
-         user_obj = self.model(
+        user_obj = self.model(
             email = self.normalize_email(email)
-         )
+        )
 
-         user_obj.set_password(password)
-         user_obj.active = is_active
-         user_obj.admin = is_admin
-         user_obj.staff = is_staff
-         user_obj.lecturer = is_lecturer
-         user_obj.student = is_student
+        user_obj.set_password(password)
+        user_obj.active = is_active
+        user_obj.admin = is_admin
+        user_obj.staff = is_staff
+        user_obj.lecturer = is_lecturer
+        user_obj.student = is_student
 
-         user_obj.save(using=self.db)
+        user_obj.save(using=self.db)
 #         return user_obj
         
-     # Create admin
-     def create_staffuser(self, email, password=None):
-         user = self.create_user(
-             email,
-             password=password,
-             is_staff=True
-         )
-         return user
+    # Create admin
+    def create_staffuser(self, email, password=None):
+        user = self.create_user(
+            email,
+            password=password,
+            is_staff=True
+        )
+        return user
 
-         # Create superuser
-     def create_superuser(self, email, password=None):
-         user = self.create_user(
-             email,
-             password=password,
-             is_admin=True,
-             is_staff=True
-         )
-         return user
+        # Create superuser
+    def create_superuser(self, email, password=None):
+        user = self.create_user(
+            email,
+            password=password,
+            is_admin=True,
+            is_staff=True
+        )
+        return user
 
-     # Create lecturer
-     def create_lectureruser(self, email, password=None):
-         user = self.create_user(
-             email,
-             password=password,
-             is_lecturer=True
-         )
-         return user
+    # Create lecturer
+    def create_lectureruser(self, email, password=None):
+        user = self.create_user(
+            email,
+            password=password,
+            is_lecturer=True
+        )
+        return user
 
-     # Create student
-     def create_studentuser(self, email, password=None):
-         user = self.create_user(
-             email,
-             password=password,
-             is_student=True
-         )
-         return user
+    # Create student
+    def create_studentuser(self, email, password=None):
+        user = self.create_user(
+            email,
+            password=password,
+            is_student=True
+        )
+        return user
     
 
 
@@ -94,7 +94,7 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    # Django built-in: default method by django 
+    # Django built-in: default method by django (function)
     def get_full_name(self):
         return self.name
     
@@ -112,12 +112,12 @@ class User(AbstractBaseUser):
         return self.admin
 
     @property
-    def is_active(self): # active
+    def is_active(self): #active
         return self.active
 
     # Our own return value
     @property
-    def is_staff(self): # admin
+    def is_staff(self): #admin
         return self.staff
 
     @property
