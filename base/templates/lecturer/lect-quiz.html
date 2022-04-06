@@ -1,0 +1,26 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Quiz</h1>
+
+<a href="{% url 'lect-create-quiz' %}" class="btn btn-primary">Create</a>
+
+<div class="row">
+    <div class="col-10">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Quiz</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td><a href="{% url 'lect-quiz-content' %}">Should be a link and view quiz content</a></td>
+                <td></td>
+                <td><a href="{% url 'lect-quiz-answered' %}" class="btn btn-primary">View</a> <a href="{% url 'lect-edit-quiz' %}" class="btn btn-secondary">Edit</a> <button class="btn btn-danger">Delete</button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

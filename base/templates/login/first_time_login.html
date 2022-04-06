@@ -1,0 +1,46 @@
+{% extends 'login.html' %}
+
+{% block content %}
+
+<h1>First Time Login</h1>
+
+<div>
+    <form method="POST" action=""> <!--go to dashboard after login-->
+        {% csrf_token %}
+    
+        <label>Alternate Email:</label>
+        <input type="email" name="altemail" placeholder="Enter alternate email">
+        <br>
+    
+        <label>Confirm Alternate Email:</label>
+        <input type="email" name="confirmaltemail" placeholder="Confirm alternate email">
+        <br>
+
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="Enter password">
+        <br>
+
+        <label>Confirm Password:</label>
+        <input type="password" name="confirmpassword" placeholder="Confirm password">
+        <br>
+
+        <!--<input type="checkbox" id="box" onclick="showPass()">Show Password
+        <br>-->
+    
+        <input type="submit" value="Confirm">
+    </form>
+    
+    <!--Create error message to check existing email-->
+    <!-- {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} -->
+</div>
+
+<div></div>
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Quiz Content</h1>
+
+<div class="row">
+    <div class="col">
+        <form>
+            <label>Name: </label>
+            <br> <br>
+            <label>Deadline: </label>
+            <br>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a href="{% url 'lect-edit-quiz' %}" class="btn btn-secondary">Edit</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-10">
+        <table class="table table-striped table-bordered">
+            <form>
+                <tr>
+                    <th>Question</th>
+                    <th>Answer A</th>
+                    <th>Answer B</th>
+                    <th>Answer C</th>
+                    <th>Answer D</th>
+                    <th>Correct Answer</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

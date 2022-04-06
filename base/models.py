@@ -102,10 +102,10 @@ class User(AbstractBaseUser):
         return self.name
 
     def has_perm(self, perm, obj=None):
-        return True
+        return True #because we're not using built-in django model
 
     def has_module_perms(self, app_label):
-        return True
+        return True #because we're not using built-in django model
 
     @property
     def is_admin(self): #superuser

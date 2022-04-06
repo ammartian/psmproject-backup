@@ -4,27 +4,40 @@
 
 <h1>Manage Student Page</h1>
 
-<div>
-    <form method="POST" action="">
-        
-        <label>Student Name:</label>
-        <input type="text" name="name" placeholder="Enter name">
-        <br>
+<div class="row">
+    <div class="col-10">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <form method="POST" action="">
+                    <td><input type="text" name="studName" placeholder="Student Name"></td>
+                    <td><input type="email" name="studEmail" placeholder="Student Email"></td>
+                    <td><input type="text" name="studID" placeholder="Student ID"></td>
+                    <td><input type="password" name="studPassword" placeholder="Enter password"></td>
+                    <td><input type="password" name="confirmStudPassword" placeholder="Confirm password"></td>
+                    <td><button class="btn btn-primary">Add</button></td>
+                </form>
+            </tr>
+        </table>
+    </div>
+</div>
 
-        <label>Student Username:</label>
-        <input type="text" name="username" placeholder="Enter username">
-        <br>
-    
-        <label>Password:</label>
-        <input type="password" name="password" placeholder="Enter password">
-        <br>
-
-        <label>Password:</label>
-        <input type="password" name="password" placeholder="Enter password">
-        <br>
-
-        <input type="submit" value="Register">
-    </form>
+<div class="row">
+    <div class="col-10">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 {% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Edit Quiz</h1>
+
+<div class="row">
+    <div class="col">
+        <form>
+            <label>Name: </label>
+            <br> <br>
+            <label>Deadline: </label>
+            <br>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-10">
+        <table class="table table-striped table-bordered">
+            <form>
+                <tr>
+                    <th>Question</th>
+                    <th>Answer A</th>
+                    <th>Answer B</th>
+                    <th>Answer C</th>
+                    <th>Answer D</th>
+                    <th>Correct Answer</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="question" name="question"></td>
+                    <td><input type="text" id="answerA" name="answerA"></td>
+                    <td><input type="text" id="answerB" name="answerB"></td>
+                    <td><input type="text" id="answerC" name="answerC"></td>
+                    <td><input type="text" id="answerD" name="answerD"></td>
+                    <td>
+                        <select id="correctAnswer" name="correctAnswer">
+                            <option value="answerA">A</option> <!--is this the correct method?-->
+                            <option value="answerB">B</option>
+                            <option value="answerC">C</option>
+                            <option value="answerD">D</option>
+                        </select>
+                    </td>
+                    <td><button class="btn btn-danger">Delete</button></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="question" name="question"></td>
+                    <td><input type="text" id="answerA" name="answerA"></td>
+                    <td><input type="text" id="answerB" name="answerB"></td>
+                    <td><input type="text" id="answerC" name="answerC"></td>
+                    <td><input type="text" id="answerD" name="answerD"></td>
+                    <td>
+                        <select id="correctAnswer" name="correctAnswer">
+                            <option value="answerA">A</option> <!--is this the correct method?-->
+                            <option value="answerB">B</option>
+                            <option value="answerC">C</option>
+                            <option value="answerD">D</option>
+                        </select>
+                    </td>
+                    <td><button class="btn btn-primary">Add</button></td>
+                </tr>
+            </form>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary">Confirm</button>
+    </div>
+</div>
+
+
+
+{% endblock %}

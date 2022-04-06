@@ -1,50 +1,67 @@
+{% load static %}
+
 <style>
     img {
         border-radius: 50%;
     }
 </style>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav nav flex-column">
 
-<img src="" alt="user picture" width="150px">
-<br>
+    <img src="" alt="user picture" width="150px">
+    <br>
 
-<p>NAME</p>
+    <p>NAME</p>
 
-<p>MATRIKS NUMBER</p>
-<hr>
-
-<a href="{% url 'dashboard' %}"><p>DASHBOARD</p></a>
-<hr>
-
-
+    <p>MATRIKS NUMBER</p>
+    
+<!--ADD JS: ADD "active" class WHEN CLICK-->
+    
 <!--ADMIN-->
-{% if user.is_authenticated and user.is_admin %}
+{% if user.is_authenticated and user.is_staff %}
 
-<a href="{% url 'manage-course' %}"><p>MANAGE COURSE</p></a>
-<hr>
+    
+        <a class="nav-link active" aria-current="page" href="{% url 'admin-dashboard' %}"><p>ADMIN DASHBOARD</p></a>
+        
 
-<a href="{% url 'manage-lecturer' %}"><p>MANAGE LECTURER</p></a>
-<hr>
+        <a class="nav-link active" aria-current="page" href="{% url 'manage-course' %}"><p>MANAGE COURSE</p></a>
+        
 
-<a href="{% url 'manage-student' %}"><p>MANAGE STUDENT</p></a>
-<hr>
+        <a class="nav-link active" aria-current="page" href="{% url 'manage-lecturer' %}"><p>MANAGE LECTURER</p></a>
+        
 
-{% elif user.is_lecturer %}
+        <a class="nav-link active" aria-current="page" href="{% url 'manage-student' %}"><p>MANAGE STUDENT</p></a>
+        
 
-{% else %} <!--student-->
+
+
+{% elif user.is_authenticated and user.is_lecturer %} <!--Lecturer-->
+
+        <a class="nav-link active" aria-current="page" href="{% url 'lecturer-dashboard' %}"><p>LECTURER DASHBOARD</p></a>
+        
+
+{% elif user.is_authenticated and user.is_student %} <!--Student-->
+
+        <a class="nav-link active" aria-current="page" href="{% url 'student-dashboard' %}"><p>STUDENT DASHBOARD</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'register-course' %}"><p>REGISTER COURSE</p></a>
+        
 
 {% endif %}
 
+        <a class="nav-link active" aria-current="page" href="{% url 'change-email' %}"><p>CHANGE EMAIL</p></a>
+        
+        <a class="nav-link active" aria-current="page" href="{% url 'change-password' %}"><p>CHANGE PASSWORD</p></a>
+        
+        <a class="nav-link active" aria-current="page" href="{% url 'session-management' %}"><p>SESSION MANAGEMENT</p></a>
+        
+        <a class="nav-link active" aria-current="page" href="{% url 'logout' %}"><p>LOGOUT</p></a>
+        
 
-
-<a href="{% url 'change-email' %}"><p>CHANGE EMAIL</p></a>
-<hr>
-
-<a href="{% url 'change-password' %}"><p>CHANGE PASSWORD</p></a>
-<hr>
-
-<a href="{% url 'session-management' %}"><p>SESSION MANAGEMENT</p></a>
-<hr>
-
-<a href="{% url 'logout' %}"><p>LOGOUT</p></a>
-<hr>
+    </div>
+    </div>
+</nav>
