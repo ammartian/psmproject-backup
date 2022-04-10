@@ -5,6 +5,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .forms import UserAdminCreationForm, UserAdminChangeForm #take the form in form.py
 
+from .models import *
+
 # Register your models here.
 
 User = get_user_model()
@@ -43,3 +45,6 @@ admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
 
 #admin.site.register(User)
+
+#course
+admin.site.register(Course)

@@ -130,5 +130,26 @@ class User(AbstractBaseUser):
 
 
 #TO EXTENDS EXTRA DATA FOR SPECIFIC USER TYPE
-#class Admins(models.Model):
-#    user = models.OneToOneField(User)
+# class Admins(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     staff = models.BooleanField(default=True)
+
+# class Lecturers(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     lecturer = models.BooleanField(default=True)
+
+# class Students(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     student = models.BooleanField(default=True)
+
+
+#COURSE MODELS
+class Course(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=200, null=True)
+    courseID = models.CharField(max_length=200, null=True)
+    credit = models.IntegerField(null=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self): 
+        return self.name

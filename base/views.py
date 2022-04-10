@@ -1,8 +1,10 @@
+from unicodedata import name
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User #for manage user
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout  # django template
 from django.contrib.auth.decorators import login_required  # to restrict page/views
+from .models import *
 
 
 # Create your views here.
@@ -108,7 +110,11 @@ def adminDashboard(request):
 
 @login_required(login_url='login')
 def manageCourse(request):
-    context = {}
+    courses = Course.objects.all()
+    # assigned = User.objects.filter(lecturer=True).values('name')
+    lecturers = User.objects.filter(lecturer=True) #show only lecturer
+
+    context = {'courses': courses, 'lecturers':lecturers,}
     return render(request, 'admin/manage_course.html', context)
 
 
