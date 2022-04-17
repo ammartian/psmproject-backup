@@ -36,8 +36,9 @@
                 <th>Lecturer</th>
                 <th>Action</th>
             </tr>
+            
+            {% for course in courses %}
             <tr>
-                {% for course in courses %}
                     <td>{{course.name}}</td>
                     <td>{{course.courseID}}</td>
                     <td>{{course.credit}}</td>
@@ -48,7 +49,6 @@
                             {{assign.name}}
                         {% endfor %} -->
                     </td>
-                {% endfor %}
                 <!--<td>-->
                     <!--On edit use this select-->
                     <!--<select>
@@ -60,6 +60,7 @@
                 <!--</td>-->
                 <td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>

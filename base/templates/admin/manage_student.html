@@ -30,12 +30,14 @@
                 <th>Email</th>
                 <th>Action</th>
             </tr>
+            {% for student in students %}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{student.name}}</td>
+                <td>{{student.id}}</td>
+                <td>{{student.email}}</td>
                 <td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>

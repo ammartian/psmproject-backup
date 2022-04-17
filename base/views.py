@@ -4,6 +4,7 @@ from django.contrib.auth.models import User #for manage user
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout  # django template
 from django.contrib.auth.decorators import login_required  # to restrict page/views
+from django.contrib.sessions.models import Session
 from .models import *
 
 
@@ -88,8 +89,10 @@ def changePassword(request):
 
 
 @login_required(login_url='login')
-def sessionManagement(request):
-    context = {}
+def sessionManagement(request): #how to fetch current user only
+    sessions = Session.objects.all() #add count?
+    login_logs = User.objects.all() #current user?
+    context = {'sessions':sessions, 'login_logs':login_logs}
     return render(request, 'all/session.html', context)
 
 
@@ -120,13 +123,15 @@ def manageCourse(request):
 
 @login_required(login_url='login')
 def manageLecturer(request):
-    context = {}
+    lecturers = User.objects.filter(lecturer=True) #show only lecturer
+    context = {'lecturers':lecturers}
     return render(request, 'admin/manage_lecturer.html', context)
 
 
 @login_required(login_url='login')
 def manageStudent(request):
-    context = {}
+    students = User.objects.filter(student=True)
+    context = {'students':students}
     return render(request, 'admin/manage_student.html', context)
 
 
@@ -188,7 +193,8 @@ def studentDashboard(request):
 
 @login_required(login_url='login')
 def registerCourse(request):
-    context = {}
+    courses = Course.objects.all()
+    context = {'courses': courses}
     return render(request, 'student/register-course.html', context)
 
 @login_required(login_url='login')
