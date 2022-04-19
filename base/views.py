@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout  # django template
 from django.contrib.auth.decorators import login_required  # to restrict page/views
 from django.contrib.sessions.models import Session
 from .models import *
+from .forms import * #Can be more specific
 
 
 # Create your views here.
@@ -89,10 +90,13 @@ def changePassword(request):
 
 
 @login_required(login_url='login')
-def sessionManagement(request): #how to fetch current user only
+def sessionManagement(request, pk): #how to fetch current user only
+    currUser = User.objects.get(id=pk)
+
     sessions = Session.objects.all() #add count?
-    login_logs = User.objects.all() #current user?
-    context = {'sessions':sessions, 'login_logs':login_logs}
+    login_logs = User.objects.filter(id=pk) #to fetch current user
+
+    context = {'sessions':sessions, 'login_logs':login_logs, 'currUser':currUser}
     return render(request, 'all/session.html', context)
 
 
@@ -113,11 +117,11 @@ def adminDashboard(request):
 
 @login_required(login_url='login')
 def manageCourse(request):
+    form = createCourse()
     courses = Course.objects.all()
-    # assigned = User.objects.filter(lecturer=True).values('name')
     lecturers = User.objects.filter(lecturer=True) #show only lecturer
 
-    context = {'courses': courses, 'lecturers':lecturers,}
+    context = {'courses': courses, 'lecturers':lecturers, 'form':form}
     return render(request, 'admin/manage_course.html', context)
 
 

@@ -11,6 +11,7 @@
         <table class="table table-striped table-bordered">
             {% for session in sessions %}
             <tr>
+                <td>{{session.session_key}}</td>
                 <td>{{session.expire_date}}</td>
                 <td>Just do count or detect computer id/name if possible</td>
             </tr>
@@ -21,13 +22,13 @@
 
 <div class="row">
     <div class="col-6">
-        <h3>SESSION LOG</h3>
+        <h3>SESSION LOG(previous login info)</h3>
         <!--Create for blocks to loop active sessions-->
         <table class="table table-striped table-bordered">
             {% for login_log in login_logs %}
             <tr>
                 <td>{{login_log.last_login}}</td>
-                <td>display current user only</td>
+                <td>time is not set to MY time</td>
             </tr>
             {% endfor %}
         </table>

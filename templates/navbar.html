@@ -57,7 +57,7 @@
         
         <a class="nav-link active" aria-current="page" href="{% url 'change-password' %}"><p>CHANGE PASSWORD</p></a>
         
-        <a class="nav-link active" aria-current="page" href="{% url 'session-management' %}"><p>SESSION MANAGEMENT</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'session-management' user.id %}"><p>SESSION MANAGEMENT</p></a>
         
         <a class="nav-link active" aria-current="page" href="{% url 'logout' %}"><p>LOGOUT</p></a>
         

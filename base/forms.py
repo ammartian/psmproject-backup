@@ -2,6 +2,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+#for CRUD
+from django.forms import ModelForm
+from .models import *
 
 User = get_user_model()
 
@@ -57,5 +60,7 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-
-#admin.site.register(User) <- error should i import admin?`
+class createCourse(ModelForm):
+    class Meta:
+        model = Course
+        fields = '__all__'

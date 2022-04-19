@@ -15,7 +15,7 @@ urlpatterns = [
     path('dashboard/', views.adminDashboard , name='admin-dashboard'),
     path('change-email/', views.changeEmail, name="change-email"),
     path('change-password/', views.changePassword, name="change-password"),
-    path('session/', views.sessionManagement, name="session-management"),
+    path('session/<str:pk>/', views.sessionManagement, name="session-management"),
     path('reenter-password/', views.reenterPassword, name="reenter-password"),
 
     
