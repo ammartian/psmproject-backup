@@ -33,7 +33,7 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <th>Name</th>
-                <th>ID</th>
+                <th>Course ID</th>
                 <th>Credit</th>
                 <th>Lecturer</th>
                 <th>Action</th>
@@ -56,7 +56,9 @@
                     </select>-->
                     <!--On edit use this select-->
                 <!--</td>-->
-                <td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
+                <td><a class="btn btn-primary" href="{% url 'update-course' course.id %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete-course' course.id %}">Delete</a>
+                </td>
             </tr>
             {% endfor %}
         </table>

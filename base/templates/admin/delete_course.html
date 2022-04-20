@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Delete Course Confirmation</h1>
+
+<p>Are you sure you want to delete "{{course}}"</p>
+
+<form action="{% url 'delete-course' course.id %}" method="POST">
+    {% csrf_token %}
+    <a class="btn btn-primary" href="{% url 'manage-course' %}">Cancel</a>
+
+    <input class="btn btn-danger" type="submit" name="Confirm">
+</form>
+
+{% endblock %}

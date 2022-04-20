@@ -21,6 +21,8 @@ urlpatterns = [
     
     #admin
     path('manage-course/', views.manageCourse, name="manage-course"),
+    path('update-course/<str:pk>/', views.updateCourse, name="update-course"),
+    path('delete-course/<str:pk>/', views.deleteCourse, name="delete-course"),
     path('manage-lecturer/', views.manageLecturer, name="manage-lecturer"),
     path('manage-student/', views.manageStudent, name="manage-student"),
 

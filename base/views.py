@@ -119,10 +119,40 @@ def adminDashboard(request):
 def manageCourse(request):
     form = createCourse()
     courses = Course.objects.all()
-    lecturers = User.objects.filter(lecturer=True) #show only lecturer
+    #lecturers = User.objects.filter(lecturer=True) #show only lecturer
+    if request.method == 'POST':
+        #print('Printing POST', request.POST)
+        form = createCourse(request.POST)
+        if form.is_valid():
+            form.save()
+            #current: it will simply add to current page
+            #redirect to main current page?
 
-    context = {'courses': courses, 'lecturers':lecturers, 'form':form}
+    context = {'courses': courses, 'form':form}
     return render(request, 'admin/manage_course.html', context)
+
+@login_required(login_url='login')
+def updateCourse(request, pk):
+    course = Course.objects.get(id=pk)
+    form = createCourse(instance=course)
+    if request.method == 'POST':
+        form = createCourse(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('manage-course')
+
+    context = {'form':form}
+    return render(request, 'admin/update_course.html', context)
+
+@login_required(login_url='login')
+def deleteCourse(request, pk):
+    course = Course.objects.get(id=pk)
+    if request.method == "POST":
+        course.delete()
+        return redirect('manage-course')
+
+    context = {'course':course}
+    return render(request, 'admin/delete_course.html', context)
 
 
 @login_required(login_url='login')
