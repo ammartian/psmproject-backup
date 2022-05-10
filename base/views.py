@@ -1,3 +1,4 @@
+from datetime import datetime
 from unicodedata import name
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User #for manage user
@@ -157,16 +158,79 @@ def deleteCourse(request, pk):
 
 @login_required(login_url='login')
 def manageLecturer(request):
+    form = createLecturer(initial={'date_created': datetime.now(), 'lecturer': True})
     lecturers = User.objects.filter(lecturer=True) #show only lecturer
-    context = {'lecturers':lecturers}
+    if request.method == 'POST':
+        #print('Printing POST', request.POST)
+        form = createLecturer(request.POST)
+        if form.is_valid():
+            form.save()
+            #current: it will simply add to current page
+            #redirect to main current page?
+    context = {'lecturers':lecturers, 'form':form}
     return render(request, 'admin/manage_lecturer.html', context)
+
+@login_required(login_url='login')
+def updateLecturer(request, pk):
+    lecturer = User.objects.get(id=pk)
+    form = createLecturer(instance=lecturer)
+    if request.method == 'POST':
+        form = createLecturer(request.POST, instance=lecturer)
+        if form.is_valid():
+            form.save()
+            return redirect('manage-lecturer')
+
+    context = {'form':form}
+    return render(request, 'admin/update_lecturer.html', context)
+
+@login_required(login_url='login')
+def deleteLecturer(request, pk):
+    lecturer = User.objects.get(id=pk)
+    if request.method == "POST":
+        lecturer.delete()
+        return redirect('manage-lecturer')
+
+    context = {'lecturer':lecturer}
+    return render(request, 'admin/delete_lecturer.html', context)
 
 
 @login_required(login_url='login')
 def manageStudent(request):
+    form = createStudent(initial={'date_created': datetime.now(), 'student': True})
     students = User.objects.filter(student=True)
-    context = {'students':students}
+    if request.method == 'POST':
+        #print('Printing POST', request.POST)
+        form = createStudent(request.POST)
+        if form.is_valid():
+            form.save()
+            #current: it will simply add to current page
+            #redirect to main current page?
+    
+    context = {'students':students, 'form':form}
     return render(request, 'admin/manage_student.html', context)
+
+@login_required(login_url='login')
+def updateStudent(request, pk):
+    student = User.objects.get(id=pk)
+    form = createStudent(instance=student)
+    if request.method == 'POST':
+        form = createStudent(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return redirect('manage-student')
+
+    context = {'form':form}
+    return render(request, 'admin/update_student.html', context)
+
+@login_required(login_url='login')
+def deleteStudent(request, pk):
+    student = User.objects.get(id=pk)
+    if request.method == "POST":
+        student.delete()
+        return redirect('manage-student')
+
+    context = {'student':student}
+    return render(request, 'admin/delete_student.html', context)
 
 
 #ADMIN--------------------------------------------------------

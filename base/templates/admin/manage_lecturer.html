@@ -9,12 +9,10 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <form method="POST" action="">
-                    <td><input type="text" name="lectName" placeholder="Lecturer Name"></td>
-                    <td><input type="email" name="lectEmail" placeholder="Lecturer Email"></td>
-                    <td><input type="text" name="lectID" placeholder="Lecturer ID"></td>
-                    <td><input type="password" name="lectPassword" placeholder="Enter password"></td>
-                    <td><input type="password" name="confirmLectPassword" placeholder="Confirm password"></td>
-                    <td><button class="btn btn-primary">Add</button></td>
+                    {% csrf_token %}
+                    {{form}}
+
+                    <td><input class="btn btn-primary" type="submit" name="submit" value="Add"></td>
                 </form>
             </tr>
         </table>
@@ -35,7 +33,10 @@
                 <td>{{lecturer.name}}</td>
                 <td>{{lecturer.id}}</td>
                 <td>{{lecturer.email}}</td>
-                <td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'update-lecturer' lecturer.id %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete-lecturer' lecturer.id %}">Delete</a>
+                </td>
             </tr>
             {% endfor %}
         </table>

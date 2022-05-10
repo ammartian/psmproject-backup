@@ -56,7 +56,8 @@
                     </select>-->
                     <!--On edit use this select-->
                 <!--</td>-->
-                <td><a class="btn btn-primary" href="{% url 'update-course' course.id %}">Edit</a>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'update-course' course.id %}">Edit</a>
                     <a class="btn btn-danger" href="{% url 'delete-course' course.id %}">Delete</a>
                 </td>
             </tr>
