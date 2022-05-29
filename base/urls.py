@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     #login
@@ -10,13 +11,19 @@ urlpatterns = [
     path('set-new-password/', views.setNewPassword, name="set-new-password"),
 
 
+    #reset password with email
+    path('reset_password/', auth_views.PasswordResetView.as_view(), name="reset_password"), #submit email form
+    path('reset_password_sent/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_done"), #email sent success message
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"), #link to password Rest form in mail
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"), #password successfully changed message
+
 
     #all
     path('dashboard/', views.adminDashboard , name='admin-dashboard'),
     path('change-email/', views.changeEmail, name="change-email"),
     path('change-password/', views.changePassword, name="change-password"),
     path('session/<str:pk>/', views.sessionManagement, name="session-management"),
-    path('reenter-password/', views.reenterPassword, name="reenter-password"),
+    path('reenter-email/', views.checkChangeEmail, name="reenter-email"),
 
     
     #admin

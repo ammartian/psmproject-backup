@@ -147,7 +147,7 @@ class User(AbstractBaseUser):
 class Course(models.Model):
     user = models.ForeignKey(User, limit_choices_to={'lecturer': True}, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=200, null=True)
-    courseID = models.CharField(max_length=200, null=True)
+    courseID = models.CharField(unique=True, max_length=200, null=True)
     credit = models.IntegerField(null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 

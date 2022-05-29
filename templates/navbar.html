@@ -16,14 +16,16 @@
     <img src="" alt="user picture" width="150px">
     <br>
 
-    <p>NAME</p>
-
-    <p>MATRIKS NUMBER</p>
+    
     
 <!--ADD JS: ADD "active" class WHEN CLICK-->
     
 <!--ADMIN-->
 {% if user.is_authenticated and user.is_staff %}
+
+        <p>{{user.name}}</p>
+
+        <p>{{user.unique_id}}</p>
 
     
         <a class="nav-link active" aria-current="page" href="{% url 'admin-dashboard' %}"><p>ADMIN DASHBOARD</p></a>
@@ -42,10 +44,18 @@
 
 {% elif user.is_authenticated and user.is_lecturer %} <!--Lecturer-->
 
+        <p>{{user.name}}</p>
+
+        <p>{{user.unique_id}}</p>
+
         <a class="nav-link active" aria-current="page" href="{% url 'lecturer-dashboard' %}"><p>LECTURER DASHBOARD</p></a>
         
 
 {% elif user.is_authenticated and user.is_student %} <!--Student-->
+
+        <p>{{user.name}}</p>
+
+        <p>{{user.unique_id}}</p>
 
         <a class="nav-link active" aria-current="page" href="{% url 'student-dashboard' %}"><p>STUDENT DASHBOARD</p></a>
         <a class="nav-link active" aria-current="page" href="{% url 'register-course' %}"><p>REGISTER COURSE</p></a>
@@ -53,15 +63,15 @@
 
 {% endif %}
 
-        <a class="nav-link active" aria-current="page" href="{% url 'change-email' %}"><p>CHANGE EMAIL</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'reenter-email' %}"><p>CHANGE EMAIL</p></a>
         
         <a class="nav-link active" aria-current="page" href="{% url 'change-password' %}"><p>CHANGE PASSWORD</p></a>
         
         <a class="nav-link active" aria-current="page" href="{% url 'session-management' user.id %}"><p>SESSION MANAGEMENT</p></a>
-        
+
         <a class="nav-link active" aria-current="page" href="{% url 'logout' %}"><p>LOGOUT</p></a>
-        
 
     </div>
     </div>
+
 </nav>

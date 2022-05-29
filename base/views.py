@@ -1,5 +1,6 @@
 from datetime import datetime
 from unicodedata import name
+from xml.etree.ElementTree import tostring
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User #for manage user
 from django.contrib import messages
@@ -8,6 +9,7 @@ from django.contrib.auth.decorators import login_required  # to restrict page/vi
 from django.contrib.sessions.models import Session
 from .models import *
 from .forms import * #Can be more specific
+from django.views.generic.edit import UpdateView
 
 
 # Create your views here.
@@ -48,6 +50,22 @@ def loginPage(request):
     return render(request, 'login/login_content.html', context)
 
 
+#Re-enter Password for Change Email
+# @login_required(login_url='login')
+# def checkChangeEmail(request, pk):
+    
+#     users = User.objects.get(id=pk)
+
+#     context = {'users':users}
+#     return render(request, 'all/reenter_email.html', context)
+
+@login_required(login_url='login')
+def checkChangeEmail(request):
+
+    form = ConfirmPasswordForm()
+
+    context = {'form':form}
+    return render(request, 'all/reenter_email.html', context)
 
 # Logout, destroy session id
 def logoutUser(request):
@@ -75,6 +93,12 @@ def setNewPassword(request):
 
 
 #ALL--------------------------------------------------------
+
+@login_required(login_url='login')
+def fetchUser(request, pk):
+    currUser = User.objects.get(id=pk)
+    context = {'currUser':currUser}
+    return render(request, context)
 
 @login_required(login_url='login')
 def changeEmail(request):

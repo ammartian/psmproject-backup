@@ -31,7 +31,7 @@
             {% for lecturer in lecturers %}
             <tr>
                 <td>{{lecturer.name}}</td>
-                <td>{{lecturer.id}}</td>
+                <td>{{lecturer.unique_id}}</td>
                 <td>{{lecturer.email}}</td>
                 <td>
                     <a class="btn btn-primary" href="{% url 'update-lecturer' lecturer.id %}">Edit</a>

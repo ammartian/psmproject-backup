@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Re-enter Password to Change Email</h1>
+
+<form method="POST" action="">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    
+    <!-- <label>Password:</label>
+        <input type="password" name="password" placeholder="Enter password">
+    <br> -->
+
+    <input class="btn btn-primary" type="submit" value="Submit">
+</form>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+{% endblock %}
