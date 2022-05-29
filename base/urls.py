@@ -13,7 +13,7 @@ urlpatterns = [
 
     #reset password with email
     path('reset_password/', auth_views.PasswordResetView.as_view(), name="reset_password"), #submit email form
-    path('reset_password_sent/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_done"), #email sent success message
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"), #email sent success message
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"), #link to password Rest form in mail
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"), #password successfully changed message
 

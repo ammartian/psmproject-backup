@@ -74,7 +74,7 @@ class User(AbstractBaseUser):
     date_created = models.DateTimeField(auto_now_add=True) #capture created time
 
     # django required fields
-    active = models.BooleanField(default=True) # so can login
+    is_active = models.BooleanField(default=True) # so can login
     admin = models.BooleanField(default=False) # for superuser
 
     # Our user type
@@ -111,9 +111,9 @@ class User(AbstractBaseUser):
     def is_admin(self): #superuser
         return self.admin
 
-    @property
-    def is_active(self): #active
-        return self.active
+    # @property
+    # def is_active(self): #active
+    #     return self.active
 
     # Our own return value
     @property
