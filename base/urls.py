@@ -20,8 +20,11 @@ urlpatterns = [
 
     #all
     path('dashboard/', views.adminDashboard , name='admin-dashboard'),
-    path('change-email/', views.changeEmail, name="change-email"),
-    path('change-password/', views.changePassword, name="change-password"),
+    path('change-email/<str:pk>/', views.changeEmail, name="change-email"),
+    #path('change-password/', views.changePassword, name="change-password"),
+    #Password reset link (ref: https://github.com/django/django/blob/master/django/contrib/auth/views.py)
+    path('change-password/done/', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
+    path('change-password/', auth_views.PasswordChangeView.as_view(), name="password_change"),
     path('session/<str:pk>/', views.sessionManagement, name="session-management"),
     path('reenter-email/', views.checkChangeEmail, name="reenter-email"),
 

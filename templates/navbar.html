@@ -63,9 +63,9 @@
 
 {% endif %}
 
-        <a class="nav-link active" aria-current="page" href="{% url 'reenter-email' %}"><p>CHANGE EMAIL</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'change-email' user.id %}"><p>CHANGE EMAIL</p></a>
         
-        <a class="nav-link active" aria-current="page" href="{% url 'change-password' %}"><p>CHANGE PASSWORD</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'password_change' %}"><p>CHANGE PASSWORD</p></a>
         
         <a class="nav-link active" aria-current="page" href="{% url 'session-management' user.id %}"><p>SESSION MANAGEMENT</p></a>
 

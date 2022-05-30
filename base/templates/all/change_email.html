@@ -3,8 +3,9 @@
 {% block content %}
 
 <h1>Change Email</h1>
+<h3>Change alternate email?</h3>
 
-<form>
+<!-- <form>
     <input type="email" name="new_alt_email" placeholder="Enter New Alternate Email" >
     <br> <br>
 
@@ -12,6 +13,22 @@
     <br> <br>
 
     <input type="submit" value="Confirm">
+</form> -->
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form}}
+
+    <input class="btn btn-primary" type="submit" name="submit" value="confirm">
 </form>
+
+{% for message in messages %}
+    
+    <div class="alert alert-success">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+        {{ message }}
+    </div>
+
+{% endfor %}
 
 {% endblock %}

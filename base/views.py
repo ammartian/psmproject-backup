@@ -101,8 +101,20 @@ def fetchUser(request, pk):
     return render(request, context)
 
 @login_required(login_url='login')
-def changeEmail(request):
-    context = {}
+def changeEmail(request,pk):
+    user = User.objects.get(id=pk) 
+    form = EmailChangeForm(user=request.user, data=request.POST)
+    if request.method=='POST':
+        form = EmailChangeForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Form submission successful')
+            return redirect("change-email", pk=user.id)
+        else:
+            messages.error(request,'unsuccessful')
+            #return redirect('login')
+    
+    context = {'form':form, 'user':user}
     return render(request, 'all/change_email.html', context)
 
 
