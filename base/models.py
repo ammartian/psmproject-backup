@@ -72,6 +72,7 @@ class User(AbstractBaseUser):
     unique_id = models.CharField(unique=True, max_length=20) #KIV use in db
     name = models.CharField(max_length=100, blank=True) #boleh blank bila save
     date_created = models.DateTimeField(auto_now_add=True) #capture created time
+    profile_picture = models.ImageField(default="default_user.jpg" ,null=True, blank=True)
 
     # django required fields
     is_active = models.BooleanField(default=True) # so can login

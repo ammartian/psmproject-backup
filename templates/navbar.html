@@ -14,7 +14,7 @@
     <div class="navbar-nav nav flex-column">
 
     <a href="{% url 'user-profile' user.id %}">
-        <img src="" alt="user picture" width="150px">
+        <img src="{{request.user.profile_picture.url}}" alt="user picture" width="150px">
     </a>
     <br>
 

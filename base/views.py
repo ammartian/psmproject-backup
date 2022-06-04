@@ -97,7 +97,15 @@ def setNewPassword(request):
 @login_required(login_url='login')
 def userProfile(request, pk):
     currUsers = User.objects.get(id=pk)
-    context = {'currUsers':currUsers}
+    user = request.user
+    form = ChangeProfilePicture(instance=user)
+
+    if request.method == 'POST':
+        form = ChangeProfilePicture(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+
+    context = {'currUsers':currUsers, 'form':form}
     return render(request, 'all/user_profile.html', context)
 
 @login_required(login_url='login')

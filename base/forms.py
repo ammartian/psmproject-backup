@@ -66,10 +66,17 @@ class UserAdminChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
+class ChangeProfilePicture(ModelForm):
+    class Meta:
+        model = User
+        fields = ('profile_picture'),
+
+
 class createCourse(forms.ModelForm):
     class Meta:
         model = Course
         fields = '__all__'
+        # exclude = ['name'] <- TO EXCLUDE AN ATTRIBUTE
 
 class ConfirmPasswordForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput())
@@ -106,6 +113,7 @@ class createLecturer(forms.ModelForm):
     class Meta:
         model = User
         fields = ['name', 'unique_id', 'email', 'lecturer'] #required fields
+        # exclude = ['name'] <- TO EXCLUDE AN ATTRIBUTE
 
     def clean(self):
         '''
