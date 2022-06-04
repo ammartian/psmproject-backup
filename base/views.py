@@ -36,13 +36,13 @@ def loginPage(request):
         #log user in and send to home
         if user is not None and user.is_staff:
             login(request, user) #user line 49 ^
-            return redirect('admin-dashboard')
+            return redirect('admin-dashboard', user.id)
         elif user is not None and user.is_lecturer:
             login(request, user) #user line 49 ^
-            return redirect('lecturer-dashboard')
+            return redirect('lecturer-dashboard', user.id)
         elif user is not None and user.is_student:
             login(request, user) #user line 49 ^
-            return redirect('student-dashboard')
+            return redirect('student-dashboard', user.id)
         else:
             messages.error(request, 'Incorrect username or password')
 
@@ -95,10 +95,10 @@ def setNewPassword(request):
 #ALL--------------------------------------------------------
 
 @login_required(login_url='login')
-def fetchUser(request, pk):
-    currUser = User.objects.get(id=pk)
-    context = {'currUser':currUser}
-    return render(request, context)
+def userProfile(request, pk):
+    currUsers = User.objects.get(id=pk)
+    context = {'currUsers':currUsers}
+    return render(request, 'all/user_profile.html', context)
 
 @login_required(login_url='login')
 def changeEmail(request,pk):
@@ -148,8 +148,9 @@ def reenterPassword(request):
 
 #ADMIN--------------------------------------------------------
 @login_required(login_url='login') #if not logged in, cant view dashboard
-def adminDashboard(request):
-    context = {}
+def adminDashboard(request, pk):
+    currAdmin = User.objects.get(id=pk)
+    context = {'currAdmin':currAdmin}
     return render(request, 'admin/admin_dashboard.html', context)
 
 @login_required(login_url='login')
@@ -273,18 +274,24 @@ def deleteStudent(request, pk):
 
 #LECTURER-----------------------------------------------------
 @login_required(login_url='login')
-def lecturerDashboard(request):
-    context = {}
+def lecturerDashboard(request, pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(user_id=currLect.id) #user_id is fk and id is pk
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse}
     return render(request, 'lecturer/lecturer_dashboard.html', context)
 
 @login_required(login_url='login')
-def lectLearningMaterial(request):
-    context = {}
+def lectLearningMaterial(request, pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(user_id=currLect.id)
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse}
     return render(request, 'lecturer/lect_learning_material.html', context)
 
 @login_required(login_url='login')
-def lectAssignment(request):
-    context = {}
+def lectAssignment(request, pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(user_id=currLect.id)
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse}
     return render(request, 'lecturer/lect-assignment.html', context)
 
 @login_required(login_url='login')
@@ -293,8 +300,10 @@ def lectAssignmentSubmitted(request):
     return render(request, 'lecturer/lect-assignment-submitted.html', context)
 
 @login_required(login_url='login')
-def lectQuiz(request):
-    context = {}
+def lectQuiz(request, pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(user_id=currLect.id)
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse}
     return render(request, 'lecturer/lect-quiz.html', context)
 
 @login_required(login_url='login')
@@ -321,7 +330,9 @@ def lectQuizAnswered(request):
 
 #Student-----------------------------------------------------
 @login_required(login_url='login')
-def studentDashboard(request):
+def studentDashboard(request, pk):
+    currStudent = User.objects.get(id=pk)
+    context = {'currStudent':currStudent}
     context = {}
     return render(request, 'student/student_dashboard.html', context)
 

@@ -13,7 +13,9 @@
     </button>
     <div class="navbar-nav nav flex-column">
 
-    <img src="" alt="user picture" width="150px">
+    <a href="{% url 'user-profile' user.id %}">
+        <img src="" alt="user picture" width="150px">
+    </a>
     <br>
 
     
@@ -28,7 +30,7 @@
         <p>{{user.unique_id}}</p>
 
     
-        <a class="nav-link active" aria-current="page" href="{% url 'admin-dashboard' %}"><p>ADMIN DASHBOARD</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'admin-dashboard' user.id %}"><p>ADMIN DASHBOARD</p></a>
         
 
         <a class="nav-link active" aria-current="page" href="{% url 'manage-course' %}"><p>MANAGE COURSE</p></a>
@@ -48,7 +50,7 @@
 
         <p>{{user.unique_id}}</p>
 
-        <a class="nav-link active" aria-current="page" href="{% url 'lecturer-dashboard' %}"><p>LECTURER DASHBOARD</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'lecturer-dashboard' user.id %}"><p>LECTURER DASHBOARD</p></a>
         
 
 {% elif user.is_authenticated and user.is_student %} <!--Student-->
@@ -57,7 +59,7 @@
 
         <p>{{user.unique_id}}</p>
 
-        <a class="nav-link active" aria-current="page" href="{% url 'student-dashboard' %}"><p>STUDENT DASHBOARD</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'student-dashboard' user.id %}"><p>STUDENT DASHBOARD</p></a>
         <a class="nav-link active" aria-current="page" href="{% url 'register-course' %}"><p>REGISTER COURSE</p></a>
         
 

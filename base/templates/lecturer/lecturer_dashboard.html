@@ -15,10 +15,11 @@
                 <th>Quiz</th>
             </tr>
             <tr>
-                <td></td>
-                <td><a href="{% url 'lect-learning-material' %}" class="btn btn-primary">View</a></td>
-                <td><a href="{% url 'lect-assignment' %}" class="btn btn-primary">View</a></td>
-                <td><a href="{% url 'lect-quiz' %}" class="btn btn-primary">View</a></td>
+                <!-- Must create for loop using assignedCourse if 1 lect are assigned to many courses. -->
+                <td>{{assignedCourse.name}}</td>
+                <td><a href="{% url 'lect-learning-material' assignedCourse.user_id %}" class="btn btn-primary">View</a></td>
+                <td><a href="{% url 'lect-assignment' assignedCourse.user_id %}" class="btn btn-primary">View</a></td>
+                <td><a href="{% url 'lect-quiz' assignedCourse.user_id %}" class="btn btn-primary">View</a></td>
             </tr>
         </table>
     </div>
