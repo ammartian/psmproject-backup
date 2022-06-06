@@ -157,3 +157,10 @@ class Course(models.Model):
 
 
 # LEARNING MATERIAL MODELS
+class LearningMaterial(models.Model):
+    course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=200, null=True)
+    file = models.FileField(upload_to='learning materials/')
+
+    def __str__(self):
+        return self.title

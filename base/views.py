@@ -1,4 +1,7 @@
 from datetime import datetime
+from distutils.command.upload import upload
+from msilib.schema import InstallUISequence
+from tkinter import Widget
 from unicodedata import name
 from xml.etree.ElementTree import tostring
 from django.shortcuts import render, redirect
@@ -10,7 +13,7 @@ from django.contrib.sessions.models import Session
 from .models import *
 from .forms import * #Can be more specific
 from django.views.generic.edit import UpdateView
-
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
@@ -289,11 +292,32 @@ def lecturerDashboard(request, pk):
     return render(request, 'lecturer/lecturer_dashboard.html', context)
 
 @login_required(login_url='login')
-def lectLearningMaterial(request, pk):
+def lectLearningMaterial(request, pk, course_pk):
     currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(user_id=currLect.id)
-    context = {'currLect':currLect, 'assignedCourse':assignedCourse}
+    assignedCourse = Course.objects.get(id=course_pk)
+    learningMaterials = LearningMaterial.objects.filter(course=assignedCourse) #filter by course but not lecturer
+    form = CreateLearningMaterial(initial={'course':assignedCourse})
+
+    if request.method == 'POST':
+        form = CreateLearningMaterial(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    context = {'form':form, 'currLect':currLect, 'assignedCourse':assignedCourse, 'learningMaterials':learningMaterials}
     return render(request, 'lecturer/lect_learning_material.html', context)
+
+@login_required(login_url='login')
+def deleteLearningMaterial(request, pk, course_pk, learnMat_pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(id=course_pk)
+    learningMaterials = LearningMaterial.objects.get(id=learnMat_pk)
+    if request.method == "POST":
+        learningMaterials.delete()
+        return redirect('lect-learning-material', currLect.id, assignedCourse.id)
+
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse, 'learningMaterials':learningMaterials}
+    return render(request, 'lecturer/delete_learning_material.html', context)
+
 
 @login_required(login_url='login')
 def lectAssignment(request, pk):

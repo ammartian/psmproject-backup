@@ -8,7 +8,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.hashers import check_password
 #from django.utils import timezone
 #for CRUD
-from django.forms import ModelForm
+from django.forms import HiddenInput, ModelForm
 from django.shortcuts import redirect
 from .models import *
 
@@ -224,3 +224,24 @@ class EmailChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+
+#Create Learning Material
+class CreateLearningMaterial(forms.ModelForm):
+
+
+    #course = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    #working but do not read course as foreign key
+
+    disabled_fields = ('course',)
+
+    class Meta:
+        model = LearningMaterial
+        fields = ('course', 'title', 'file')
+        
+
+    #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+    def __init__(self, *args, **kwargs):
+        super(CreateLearningMaterial, self).__init__(*args, **kwargs)
+        for field in self.disabled_fields:
+            self.fields[field].widget = HiddenInput()

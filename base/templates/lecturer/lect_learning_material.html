@@ -3,16 +3,26 @@
 {% block content %}
 
 <h1>Learning Material</h1>
+<h3>WORK ON THIS</h3>
 
 <div class="row">
     <div class="col">
-        <form>
-            <label>Name</label>
-            <input type="text" id="learningMaterialName" name="learningMaterialName">
-            <br>
-            <label>Select File</label>
-            <input type="file" id="learningMaterialFile" name="learningMaterialFile">
-            <br> <br>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME -->
+
+            <p>Course: {{assignedCourse.name}}</p>
+            {{form.as_p}}
+
+            <!-- <label>Title: </label>
+            <input type="text" name="title">
+            <br><br>
+
+            <label>File: </label>
+            <input type="file" name="file">
+            <br><br> -->
+
             <input type="submit" class="btn btn-primary" value="Upload">
         </form>
     </div>
@@ -26,12 +36,16 @@
                 <th>File</th>
                 <th>Action</th>
             </tr>
+
+            <!-- need to loop -->
+            {% for learningMaterial in learningMaterials %}
             <tr>
-                <!-- need to loop -->
-                <td></td>
-                <td></td>
-                <td><button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
+                <td>{{learningMaterial.title}}</td>
+                <td><a href="{{ learningMaterial.file.url }}" target="_blank">{{learningMaterial.file}}</a></td>
+                <td><a href="{% url 'delete-learning-material' currLect.id assignedCourse.id learningMaterial.id %}"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
+            {% endfor %}
+            
         </table>
     </div>
 </div>
