@@ -320,15 +320,54 @@ def deleteLearningMaterial(request, pk, course_pk, learnMat_pk):
 
 
 @login_required(login_url='login')
-def lectAssignment(request, pk):
+def lectAssignment(request, pk, course_pk):
     currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(user_id=currLect.id)
-    context = {'currLect':currLect, 'assignedCourse':assignedCourse}
+    assignedCourse = Course.objects.get(id=course_pk)
+    assignments = Assignment.objects.all()
+    form = CreateAssignment(initial={'course':assignedCourse})
+
+    if request.method == 'POST':
+        form = CreateAssignment(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    context = {'form':form, 'assignments':assignments, 'currLect':currLect, 'assignedCourse':assignedCourse}
     return render(request, 'lecturer/lect-assignment.html', context)
 
 @login_required(login_url='login')
-def lectAssignmentSubmitted(request):
-    context = {}
+def updateAssignment(request, pk, course_pk, assignment_pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(id=course_pk)
+    assignments = Assignment.objects.get(id=assignment_pk)
+    form = CreateAssignment(instance=assignments)
+    if request.method == 'POST':
+        form = CreateAssignment(request.POST, instance=assignments)
+        if form.is_valid():
+            form.save()
+            return redirect('lect-assignment', currLect.id, assignedCourse.id)
+
+    context = {'form':form, 'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments}
+    return render(request, 'lecturer/update_assignment.html', context)
+
+@login_required(login_url='login')
+def deleteAssignment(request, pk, course_pk, assignment_pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(id=course_pk)
+    assignments = Assignment.objects.get(id=assignment_pk)
+    if request.method == "POST":
+        assignments.delete()
+        return redirect('lect-assignment', currLect.id, assignedCourse.id)
+
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments}
+    return render(request, 'lecturer/delete_assignment.html', context)
+
+@login_required(login_url='login')
+def lectAssignmentSubmitted(request, pk, course_pk, assignment_pk):
+    currLect = User.objects.get(id=pk)
+    assignedCourse = Course.objects.get(id=course_pk)
+    assignments = Assignment.objects.get(id=assignment_pk)
+
+    context = {'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments}
     return render(request, 'lecturer/lect-assignment-submitted.html', context)
 
 @login_required(login_url='login')

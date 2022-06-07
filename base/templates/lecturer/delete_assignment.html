@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Delete Assignment Confirmation</h1>
+
+<p>Are you sure you want to delete "{{assignments}}"</p>
+
+<form action="{% url 'delete-assignment' currLect.id assignedCourse.id assignments.id %}" method="POST">
+    {% csrf_token %}
+    <a class="btn btn-primary" href="{% url 'lect-assignment' currLect.id assignedCourse.id   %}">Cancel</a>
+
+    <input class="btn btn-danger" type="submit" value="Confirm">
+</form>
+
+{% endblock %}

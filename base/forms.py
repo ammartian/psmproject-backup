@@ -1,6 +1,8 @@
 #Create proper form for admin/
 from dataclasses import field
+from datetime import date, datetime
 from urllib import request
+from xmlrpc.client import DateTime
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -8,7 +10,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.hashers import check_password
 #from django.utils import timezone
 #for CRUD
-from django.forms import HiddenInput, ModelForm
+from django.forms import DateTimeInput, HiddenInput, ModelForm
 from django.shortcuts import redirect
 from .models import *
 
@@ -229,10 +231,6 @@ class EmailChangeForm(forms.Form):
 #Create Learning Material
 class CreateLearningMaterial(forms.ModelForm):
 
-
-    #course = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-    #working but do not read course as foreign key
-
     disabled_fields = ('course',)
 
     class Meta:
@@ -245,3 +243,38 @@ class CreateLearningMaterial(forms.ModelForm):
         super(CreateLearningMaterial, self).__init__(*args, **kwargs)
         for field in self.disabled_fields:
             self.fields[field].widget = HiddenInput()
+
+
+#Class for datetime widget
+# class DateTimeInput(forms.DateTimeInput):
+#     input_type = 'datetime'
+
+# class deadlineInput(forms.DateTimeInput):
+#     input_type = 'date'
+
+#Create Assignment
+class CreateAssignment(forms.ModelForm):
+
+    disabled_fields = ('course',)
+    # datetime_fields = ('deadline',)
+
+    deadline = forms.DateTimeField(widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
+
+    class Meta:
+        model = Assignment
+        fields = ['course', 'name', 'deadline', 'file']
+        # widgets = { 'deadline': deadlineInput(),}
+        # widgets = {
+        #     'deadline': DateTimeInput(),
+        # }
+        
+
+    #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+    def __init__(self, *args, **kwargs):
+        super(CreateAssignment, self).__init__(*args, **kwargs)
+        
+        for field in self.disabled_fields:
+            self.fields[field].widget = HiddenInput()
+
+        # for field1 in self.datetime_fields:
+        #     self.fields[field1].widget = DateTimeInput()

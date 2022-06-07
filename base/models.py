@@ -164,3 +164,13 @@ class LearningMaterial(models.Model):
 
     def __str__(self):
         return self.title
+
+#ASSIGNMENT MODELS
+class Assignment(models.Model):
+    course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=200, null=True)
+    deadline = models.DateTimeField(null=True, blank=True)
+    file = models.FileField(upload_to='assignments/')
+
+    def __str__(self):
+        return self.name

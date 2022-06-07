@@ -6,8 +6,14 @@
 
 <div class="row">
     <div class="col">
-        <form>
-            <label>Name</label>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME -->
+
+            <p>Course: {{assignedCourse.name}}</p>
+            {{form.as_p}}
+            <!-- <label>Name</label>
             <input type="text" id="assignmentName" name="assignmentName">
             <br>
             <label>Deadline</label>
@@ -15,7 +21,7 @@
             <br>
             <label>Select File</label>
             <input type="file" id="lectAssignmentFile" name="lectAssignmentFile">
-            <br> <br>
+            <br> <br> -->
             <input type="submit" class="btn btn-primary" value="Create">
         </form>
     </div>
@@ -31,12 +37,16 @@
                 <th>Deadline</th>
                 <th>Action</th>
             </tr>
+            {% for assignment in assignments %}
             <tr>
-                <td>edit will change this table view</td>
-                <td></td>
-                <td></td>
-                <td><a href="{% url 'lect-assignment-submitted' %}" class="btn btn-primary">View</a> <button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button></td>
+                <td>{{ assignment.name }}</td>
+                <td>{{ assignment.deadline }}</td>
+                <td><a href="{{ assignment.file.url }}" target="_blank">{{ assignment.file }}</a></td>
+                <td><a href="{% url 'lect-assignment-submitted' currLect.id assignedCourse.id assignment.id %}" class="btn btn-primary">View</a> 
+                    <a href="{% url 'update-assignment' currLect.id assignedCourse.id assignment.id %}"><button class="btn btn-secondary">Edit</button></a>
+                    <a href="{% url 'delete-assignment' currLect.id assignedCourse.id assignment.id %}"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>
