@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Delete Assigned Lecturer Confirmation</h1>
+
+<p>Are you sure you want to delete "{{assignedCourses.course.course_Name}}"</p>
+
+<form action="{% url 'delete-assignedLecturer' currAdmin.id course.id assignedCourses.id %}" method="POST">
+    {% csrf_token %}
+
+    <a class="btn btn-primary" href="{% url 'assign-lecturer' currAdmin.id course.id %}">Cancel</a>
+
+    <input class="btn btn-danger" type="submit" name="Confirm">
+</form>
+
+{% endblock %}

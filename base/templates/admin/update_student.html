@@ -7,6 +7,9 @@
 <form method="POST" action="">
     {% csrf_token %}
     {{form}}
+
+    <a class="btn btn-primary" href="{% url 'manage-lecturer' %}">Cancel</a>
+
     <td><input class="btn btn-primary" type="submit" name="submit" value="Update"></td>
 </form>
 

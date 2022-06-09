@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Confirm Register Course Page</h1>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <p name="course_id"><strong>Course ID:</strong> {{courses.courseID}}</p>
+
+    <p name="course_name"><strong>Course Name:</strong> {{courses.name}}</p>
+    
+    <p name="credit"><strong>Credit:</strong> {{courses.credit}}</p>
+
+    <a class="btn btn-danger" href="{% url 'register-course' user.id %}">Cancel</a>
+    <input class="btn btn-primary" type="submit" name="submit" value="Register">
+</form>
+
+{% endblock %}

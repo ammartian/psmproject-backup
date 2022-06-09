@@ -34,13 +34,16 @@ urlpatterns = [
 
     
     #admin
-    path('manage-course/', views.manageCourse, name="manage-course"),
-    path('update-course/<str:pk>/', views.updateCourse, name="update-course"),
-    path('delete-course/<str:pk>/', views.deleteCourse, name="delete-course"),
-    path('manage-lecturer/', views.manageLecturer, name="manage-lecturer"),
+    path('manage-course/<str:pk>/', views.manageCourse, name="manage-course"),
+    path('update-course/<str:pk>/<str:course_pk>/', views.updateCourse, name="update-course"),
+    path('delete-course/<str:pk>/<str:course_pk>/', views.deleteCourse, name="delete-course"),
+    path('assign-lecturer/<str:pk>/<str:course_pk>/', views.assignLecturer, name="assign-lecturer"),
+    path('update-assigned-lecturer/<str:pk>/<str:course_pk>/<str:assign_pk>/', views.updateAssignedLecturer, name="update-assignedLecturer"),
+    path('delete-assigned-lecturer/<str:pk>/<str:course_pk>/<str:assign_pk>/', views.deleteAssignedLecturer, name="delete-assignedLecturer"),
+    path('manage-lecturer/<str:pk>/', views.manageLecturer, name="manage-lecturer"),
     path('update-lecturer/<str:pk>/', views.updateLecturer, name="update-lecturer"),
     path('delete-lecturer/<str:pk>/', views.deleteLecturer, name="delete-lecturer"),
-    path('manage-student/', views.manageStudent, name="manage-student"),
+    path('manage-student/<str:pk>/', views.manageStudent, name="manage-student"),
     path('update-student/<str:pk>/', views.updateStudent, name="update-student"),
     path('delete-student/<str:pk>/', views.deleteStudent, name="delete-student"),
 
@@ -60,7 +63,8 @@ urlpatterns = [
 
     #student
     path('student_dashboard/<str:pk>/', views.studentDashboard, name="student-dashboard" ),
-    path('register-course/', views.registerCourse, name="register-course" ),
+    path('register-course/<str:pk>/', views.registerCourse, name="register-course" ),
+    path('register-course-confirm/<str:pk>/<str:course_pk>/', views.registerCourseConfirm, name="register-course-confirm" ),
     path('course-details/', views.courseDetails, name="course-details" ),
     path('stud-assignment-details/', views.studAssignmentDetails, name="stud-assignment-details" ),
     path('stud-quiz-details/', views.studQuizDetails, name="stud-quiz-details" ),

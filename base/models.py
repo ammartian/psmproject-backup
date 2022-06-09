@@ -1,3 +1,4 @@
+from ast import Assign
 from django.db import models
 from django.contrib.auth.models import ( #to custom our own user model
     AbstractBaseUser, BaseUserManager
@@ -146,19 +147,23 @@ class User(AbstractBaseUser):
 
 #COURSE MODELS
 class Course(models.Model):
-    user = models.ForeignKey(User, limit_choices_to={'lecturer': True}, null=True, on_delete=models.SET_NULL)
-    name = models.CharField(max_length=200, null=True)
-    courseID = models.CharField(unique=True, max_length=200, null=True)
-    credit = models.IntegerField(null=True)
+    admin_create = models.ForeignKey(User, limit_choices_to={'staff': True}, null=True, on_delete=models.SET_NULL)
+    course_Name = models.CharField(max_length=200, null=True)
+    course_ID = models.CharField(unique=True, max_length=200, null=True)
+    course_Credit = models.IntegerField(null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self): 
-        return self.name
+        return self.course_Name
 
+
+class AssignLecturer(models.Model):
+    lecturer_assigned = models.ForeignKey(User, limit_choices_to={'lecturer': True}, null=True, on_delete=models.SET_NULL)
+    course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
 
 # LEARNING MATERIAL MODELS
 class LearningMaterial(models.Model):
-    course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+    assignedLect = models.ForeignKey(AssignLecturer, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200, null=True)
     file = models.FileField(upload_to='learning materials/')
 
@@ -167,10 +172,19 @@ class LearningMaterial(models.Model):
 
 #ASSIGNMENT MODELS
 class Assignment(models.Model):
-    course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+    assignedLect = models.ForeignKey(AssignLecturer, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=200, null=True)
     deadline = models.DateTimeField(null=True, blank=True)
     file = models.FileField(upload_to='assignments/')
 
     def __str__(self):
         return self.name
+
+
+#REGISTERED COURSE MODELS
+# class RegisteredCourse(models.Model):
+#     course = models.ForeignKey(Course, unique=True, null=True, on_delete=models.SET_NULL)
+#     user = models.ForeignKey(User, unique=True, null=True, on_delete=models.SET_NULL)
+
+#     def __str__(self):
+#         return self.course

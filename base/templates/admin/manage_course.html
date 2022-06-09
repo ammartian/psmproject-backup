@@ -10,6 +10,7 @@
             <tr>
                 <form method="POST" action="">
                     {% csrf_token %}
+                    <!-- <p><strong>Admin: </strong>{{user.id}}</p> -->
                     {{form}}
                     <!-- <td><input type="text" name="courseName" placeholder="Course Name"></td>
                     <td><input type="text" name="courseID" placeholder="Course ID"></td>
@@ -41,27 +42,35 @@
             
             {% for course in courses %}
             <tr>
-                    <td>{{course.name}}</td>
-                    <td>{{course.courseID}}</td>
-                    <td>{{course.credit}}</td>
+                <!--*view's object.model.model's object*-->
+                    <td>{{course.course_Name}}</td>
+                    <td>{{course.course_ID}}</td>
+                    <td>{{course.course_Credit}}</td>
+                
                     <td>
-                        {{course.user.name}}
+                        <a class="btn btn-primary" href="{% url 'assign-lecturer' currAdmin.id course.id%}">Assign</a>
                     </td>
                 <!--<td>-->
                     <!--On edit use this select-->
-                    <!--<select>
+                    <!--<select>    
                         {% for i in lecturers %}
                             <option value="{{i.name}}">{{i.name}}</option>
                         {% endfor %}
                     </select>-->
                     <!--On edit use this select-->
                 <!--</td>-->
+                <!-- {% for course in courses %}
+                    {{course.id}}
+                {% endfor %} -->
                 <td>
-                    <a class="btn btn-primary" href="{% url 'update-course' course.id %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'delete-course' course.id %}">Delete</a>
+                    
+                    <a class="btn btn-primary" href="{% url 'update-course' currAdmin.id course.id%}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete-course' currAdmin.id course.id %}">Delete</a>
+                    
                 </td>
             </tr>
             {% endfor %}
+            
         </table>
     </div>
 </div>

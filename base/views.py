@@ -165,11 +165,14 @@ def adminDashboard(request, pk):
     return render(request, 'admin/admin_dashboard.html', context)
 
 @login_required(login_url='login')
-def manageCourse(request):
-    form = createCourse()
+def manageCourse(request, pk):
+    currAdmin = User.objects.get(id=pk)
     courses = Course.objects.all()
+
+    form = createCourse(initial={'admin_create':currAdmin})
+    
     #lecturers = User.objects.filter(lecturer=True) #show only lecturer
-    if request.method == 'POST':
+    if request.method == "POST":
         #print('Printing POST', request.POST)
         form = createCourse(request.POST)
         if form.is_valid():
@@ -177,35 +180,94 @@ def manageCourse(request):
             #current: it will simply add to current page
             #redirect to main current page?
 
-    context = {'courses': courses, 'form':form}
+    context = {'currAdmin':currAdmin, 'courses':courses, 'form':form}
     return render(request, 'admin/manage_course.html', context)
 
 @login_required(login_url='login')
-def updateCourse(request, pk):
-    course = Course.objects.get(id=pk)
-    form = createCourse(instance=course)
+def updateCourse(request, pk, course_pk,):
+    currAdmin = User.objects.get(id=pk)
+    course = Course.objects.get(id=course_pk)
+    
+    form = createCourse(instance=course, initial={'id':course})
+
     if request.method == 'POST':
         form = createCourse(request.POST, instance=course)
+
+        # if all([form.is_valid(), form_2.is_valid()]):
         if form.is_valid():
             form.save()
-            return redirect('manage-course')
+            return redirect('manage-course', currAdmin.id)
 
     context = {'form':form}
     return render(request, 'admin/update_course.html', context)
 
+
 @login_required(login_url='login')
-def deleteCourse(request, pk):
-    course = Course.objects.get(id=pk)
+def deleteCourse(request, pk, course_pk):
+    currAdmin = User.objects.get(id=pk)
+    course = Course.objects.get(id=course_pk)
+
     if request.method == "POST":
         course.delete()
-        return redirect('manage-course')
+        return redirect('manage-course', currAdmin.id)
 
-    context = {'course':course}
+    context = {'currAdmin':currAdmin, 'course':course}
     return render(request, 'admin/delete_course.html', context)
 
 
 @login_required(login_url='login')
-def manageLecturer(request):
+def assignLecturer(request, pk, course_pk):
+    currAdmin = User.objects.get(id=pk)
+    course = Course.objects.get(id=course_pk)
+    assignedCourses = AssignLecturer.objects.all()
+
+    form = assignLecturertoCourse(instance=course, initial={'course':course})
+    
+    if request.method == "POST":
+        form = assignLecturertoCourse(request.POST)
+        if form.is_valid():
+            form.save()
+
+    context = {'currAdmin':currAdmin, 'course':course, 'assignedCourses':assignedCourses, 'form':form}
+    return render(request, 'admin/assign_lecturer.html', context)
+
+@login_required(login_url='login')
+def updateAssignedLecturer(request, pk, course_pk, assign_pk):
+    currAdmin = User.objects.get(id=pk)
+    course = Course.objects.get(id=course_pk)
+    assignedCourses = AssignLecturer.objects.get(id=assign_pk)
+    
+    form = assignLecturertoCourse(instance=assignedCourses)
+
+    if request.method == 'POST':
+        form = assignLecturertoCourse(request.POST, instance=assignedCourses)
+
+        if form.is_valid():
+            form.save()
+            return redirect('assign-lecturer', currAdmin.id, course.id)
+
+    context = {'form':form, 'assignedCourses':assignedCourses}
+    return render(request, 'admin/update_assignedLecturer.html', context)
+
+
+@login_required(login_url='login')
+def deleteAssignedLecturer(request, pk, course_pk, assign_pk):
+    currAdmin = User.objects.get(id=pk)
+    course = Course.objects.get(id=course_pk)
+    assignedCourses = AssignLecturer.objects.get(id=assign_pk)
+
+    if request.method == "POST":
+        assignedCourses.delete()
+        return redirect('assign-lecturer', currAdmin.id, course.id)
+
+    context = {'currAdmin':currAdmin, 'course':course, 'assignedCourses':assignedCourses}
+    return render(request, 'admin/delete_assignedLecturer.html', context)
+
+
+@login_required(login_url='login')
+def manageLecturer(request, pk):
+    currAdmin = User.objects.get(id=pk)
+
     form = createLecturer(initial={'date_created': datetime.now(), 'lecturer': True})
     lecturers = User.objects.filter(lecturer=True) #show only lecturer
     if request.method == 'POST':
@@ -215,7 +277,7 @@ def manageLecturer(request):
             form.save()
             #current: it will simply add to current page
             #redirect to main current page?
-    context = {'lecturers':lecturers, 'form':form}
+    context = {'currAdmin':currAdmin, 'lecturers':lecturers, 'form':form}
     return render(request, 'admin/manage_lecturer.html', context)
 
 @login_required(login_url='login')
@@ -243,7 +305,9 @@ def deleteLecturer(request, pk):
 
 
 @login_required(login_url='login')
-def manageStudent(request):
+def manageStudent(request, pk):
+    currAdmin = User.objects.get(id=pk)
+
     form = createStudent(initial={'date_created': datetime.now(), 'student': True})
     students = User.objects.filter(student=True)
     if request.method == 'POST':
@@ -254,7 +318,7 @@ def manageStudent(request):
             #current: it will simply add to current page
             #redirect to main current page?
     
-    context = {'students':students, 'form':form}
+    context = {'currAdmin':currAdmin, 'students':students, 'form':form}
     return render(request, 'admin/manage_student.html', context)
 
 @login_required(login_url='login')
@@ -408,10 +472,27 @@ def studentDashboard(request, pk):
     return render(request, 'student/student_dashboard.html', context)
 
 @login_required(login_url='login')
-def registerCourse(request):
+def registerCourse(request, pk):
+    currStudent = User.objects.get(id=pk)
     courses = Course.objects.all()
-    context = {'courses': courses}
+    context = {'currStudent':currStudent, 'courses': courses}
     return render(request, 'student/register-course.html', context)
+
+
+@login_required(login_url='login')
+def registerCourseConfirm(request, pk, course_pk):
+    currStudent = User.objects.get(id=pk)
+    courses = Course.objects.get(id=course_pk)
+
+    # form = selectedCourse(instance=courses)
+
+    # if request.method == "POST":
+    #     form = selectedCourse(request.POST, instance=courses)
+    #     if form.is_valid():
+    #         form.save()
+
+    context = {'currStudent':currStudent, 'courses': courses}
+    return render(request, 'student/register_course_confirm.html', context)
 
 @login_required(login_url='login')
 def courseDetails(request):

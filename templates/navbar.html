@@ -32,14 +32,13 @@
     
         <a class="nav-link active" aria-current="page" href="{% url 'admin-dashboard' user.id %}"><p>ADMIN DASHBOARD</p></a>
         
-
-        <a class="nav-link active" aria-current="page" href="{% url 'manage-course' %}"><p>MANAGE COURSE</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'manage-course' user.id %}"><p>MANAGE COURSE</p></a>
         
 
-        <a class="nav-link active" aria-current="page" href="{% url 'manage-lecturer' %}"><p>MANAGE LECTURER</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'manage-lecturer' user.id %}"><p>MANAGE LECTURER</p></a>
         
 
-        <a class="nav-link active" aria-current="page" href="{% url 'manage-student' %}"><p>MANAGE STUDENT</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'manage-student' user.id %}"><p>MANAGE STUDENT</p></a>
         
 
 
@@ -60,7 +59,7 @@
         <p>{{user.unique_id}}</p>
 
         <a class="nav-link active" aria-current="page" href="{% url 'student-dashboard' user.id %}"><p>STUDENT DASHBOARD</p></a>
-        <a class="nav-link active" aria-current="page" href="{% url 'register-course' %}"><p>REGISTER COURSE</p></a>
+        <a class="nav-link active" aria-current="page" href="{% url 'register-course' user.id %}"><p>REGISTER COURSE</p></a>
         
 
 {% endif %}

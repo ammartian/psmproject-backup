@@ -75,10 +75,38 @@ class ChangeProfilePicture(ModelForm):
 
 
 class createCourse(forms.ModelForm):
+
+    disabled_fields = ('admin_create',)
+
     class Meta:
         model = Course
         fields = '__all__'
         # exclude = ['name'] <- TO EXCLUDE AN ATTRIBUTE
+
+    #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+    def __init__(self, *args, **kwargs):
+        super(createCourse, self).__init__(*args, **kwargs)
+        for field in self.disabled_fields:
+            self.fields[field].widget = HiddenInput()
+
+class assignLecturertoCourse(forms.ModelForm):
+
+    # disabled_fields = ('course',)
+
+    class Meta:
+        model = AssignLecturer
+        fields = '__all__'
+
+    #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+    # def __init__(self, *args, **kwargs):
+    #     super(assignLecturertoCourse, self).__init__(*args, **kwargs)
+    #     for field in self.disabled_fields:
+    #         self.fields[field].widget = HiddenInput()
+
+class selectedCourse(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = '__all__'
 
 class ConfirmPasswordForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput())
@@ -231,11 +259,11 @@ class EmailChangeForm(forms.Form):
 #Create Learning Material
 class CreateLearningMaterial(forms.ModelForm):
 
-    disabled_fields = ('course',)
+    disabled_fields = ('assignedLect',)
 
     class Meta:
         model = LearningMaterial
-        fields = ('course', 'title', 'file')
+        fields = ('assignedLect', 'title', 'file')
         
 
     #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
@@ -245,36 +273,21 @@ class CreateLearningMaterial(forms.ModelForm):
             self.fields[field].widget = HiddenInput()
 
 
-#Class for datetime widget
-# class DateTimeInput(forms.DateTimeInput):
-#     input_type = 'datetime'
+# #Create Assignment
+# class CreateAssignment(forms.ModelForm):
 
-# class deadlineInput(forms.DateTimeInput):
-#     input_type = 'date'
+#     disabled_fields = ('course',)
 
-#Create Assignment
-class CreateAssignment(forms.ModelForm):
+#     deadline = forms.DateTimeField(widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
 
-    disabled_fields = ('course',)
-    # datetime_fields = ('deadline',)
-
-    deadline = forms.DateTimeField(widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
-
-    class Meta:
-        model = Assignment
-        fields = ['course', 'name', 'deadline', 'file']
-        # widgets = { 'deadline': deadlineInput(),}
-        # widgets = {
-        #     'deadline': DateTimeInput(),
-        # }
+#     class Meta:
+#         model = Assignment
+#         fields = ['course', 'name', 'deadline', 'file']
         
 
-    #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
-    def __init__(self, *args, **kwargs):
-        super(CreateAssignment, self).__init__(*args, **kwargs)
+#     #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+#     def __init__(self, *args, **kwargs):
+#         super(CreateAssignment, self).__init__(*args, **kwargs)
         
-        for field in self.disabled_fields:
-            self.fields[field].widget = HiddenInput()
-
-        # for field1 in self.datetime_fields:
-        #     self.fields[field1].widget = DateTimeInput()
+#         for field in self.disabled_fields:
+#             self.fields[field].widget = HiddenInput()

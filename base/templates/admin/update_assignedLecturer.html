@@ -2,13 +2,12 @@
 
 {% block content %}
 
-<h1>Update Course Page</h1>
+<h1>Update Assigned Lecturer Page</h1>
 
 <form method="POST" action="">
     {% csrf_token %}
-    <h3>Edit Course Details</h3>
     {{form.as_p}}
-    
+
     <td><input class="btn btn-primary" type="submit" name="submit" value="Update"></td>
 </form>
 

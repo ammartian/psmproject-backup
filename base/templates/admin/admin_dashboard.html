@@ -5,13 +5,13 @@
 
 <h1>Admin Dashboard Page</h1>
 
-<a href="{% url 'manage-course' %}" class="btn btn-primary">Manage Course</a>
+<a href="{% url 'manage-course' user.id %}" class="btn btn-primary">Manage Course</a>
 <br> <br>
 
-<a href="{% url 'manage-lecturer' %}" class="btn btn-primary">Manage Lecturer</a>
+<a href="{% url 'manage-lecturer' user.id %}" class="btn btn-primary">Manage Lecturer</a>
 <br> <br>
 
-<a href="{% url 'manage-student' %}" class="btn btn-primary">Manage Student</a>
+<a href="{% url 'manage-student' user.id %}" class="btn btn-primary">Manage Student</a>
 <br> <br>
 
 {% endblock %}
