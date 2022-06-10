@@ -49,8 +49,8 @@ urlpatterns = [
 
     #lecturer
     path('lecturer-dashboard/<str:pk>/', views.lecturerDashboard, name="lecturer-dashboard"),
-    path('lect-learning-material/<str:pk>/<str:course_pk>/', views.lectLearningMaterial, name="lect-learning-material"),
-    path('delete-learning-material/<str:pk>/<str:course_pk>/<str:learnMat_pk>/', views.deleteLearningMaterial, name="delete-learning-material"),
+    path('lect-learning-material/<str:pk>/<str:assign_pk>/', views.lectLearningMaterial, name="lect-learning-material"),
+    path('delete-learning-material/<str:pk>/<str:assign_pk>/<str:learnMat_pk>/', views.deleteLearningMaterial, name="delete-learning-material"),
     path('lect-assignment/<str:pk>/<str:course_pk>/', views.lectAssignment, name="lect-assignment"),
     path('delete-assignment/<str:pk>/<str:course_pk>/<str:assignment_pk>/', views.deleteAssignment, name="delete-assignment"),
     path('update-assignment/<str:pk>/<str:course_pk>/<str:assignment_pk>/', views.updateAssignment, name="update-assignment"),

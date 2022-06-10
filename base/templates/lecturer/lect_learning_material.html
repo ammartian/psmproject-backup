@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Learning Material</h1>
-<h3>WORK ON THIS</h3>
+
 
 <div class="row">
     <div class="col">
@@ -12,7 +12,7 @@
 
             <!-- HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME -->
 
-            <p>Course: {{assignedCourse.name}}</p>
+            <p>Course: {{getAssignedCourseID.course.course_Name}}</p>
             {{form.as_p}}
 
             <!-- <label>Title: </label>
@@ -43,7 +43,7 @@
             <tr>
                 <td>{{learningMaterial.title}}</td>
                 <td><a href="{{ learningMaterial.file.url }}" target="_blank">{{learningMaterial.file}}</a></td>
-                <td><a href="{% url 'delete-learning-material' currLect.id assignedCourse.id learningMaterial.id %}"><button class="btn btn-danger">Delete</button></a></td>
+                <td><a href="{% url 'delete-learning-material' currLect.id getAssignedCourseID.id learningMaterial.id %}"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
             {% endfor %}
             

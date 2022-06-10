@@ -6,9 +6,9 @@
 
 <p>Are you sure you want to delete "{{learningMaterials}}"</p>
 
-<form action="{% url 'delete-learning-material' currLect.id assignedCourse.id learningMaterials.id %}" method="POST">
+<form action="{% url 'delete-learning-material' currLect.id getAssignedCourseID.id learningMaterials.id %}" method="POST">
     {% csrf_token %}
-    <a class="btn btn-primary" href="{% url 'lect-learning-material' currLect.id assignedCourse.id   %}">Cancel</a>
+    <a class="btn btn-primary" href="{% url 'lect-learning-material' currLect.id getAssignedCourseID.id   %}">Cancel</a>
 
     <input class="btn btn-danger" type="submit" value="Confirm">
 </form>

@@ -160,6 +160,7 @@ class Course(models.Model):
 class AssignLecturer(models.Model):
     lecturer_assigned = models.ForeignKey(User, limit_choices_to={'lecturer': True}, null=True, on_delete=models.SET_NULL)
     course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+    
 
 # LEARNING MATERIAL MODELS
 class LearningMaterial(models.Model):

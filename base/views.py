@@ -367,30 +367,38 @@ def lecturerDashboard(request, pk):
 
 #check balik logic to fetch assigned course
 @login_required(login_url='login')
-def lectLearningMaterial(request, pk, course_pk):
-    currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(id=course_pk)
-    learningMaterials =  AssignLecturer.objects.filter(course_id=assignedCourse) #filter by course but not lecturer
-    form = CreateLearningMaterial(initial={'course':assignedCourse})
+def lectLearningMaterial(request, pk, assign_pk):
+    currLect = User.objects.get(id=pk) #5
+    assignedCourse = AssignLecturer.objects.filter(lecturer_assigned_id=currLect) #5 but id=4 ; use get instead of filter?
+    
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk) #get base_assignlecturer's id instead of assigned_lecturer_id
+    learningMaterials =  LearningMaterial.objects.filter(assignedLect_id=getAssignedCourseID) #filter by course but not lecturer
+
+
+    # assignedCourse = getAssignedCourseID #ok this is so basic and weird but it works <3
+    
+    form = CreateLearningMaterial(instance=getAssignedCourseID, initial={'assignedLect':getAssignedCourseID}) # initial={'course':assignedCourse}
 
     if request.method == 'POST':
         form = CreateLearningMaterial(request.POST, request.FILES)
         if form.is_valid():
+            print(form)
             form.save()
 
-    context = {'form':form, 'currLect':currLect, 'assignedCourse':assignedCourse, 'learningMaterials':learningMaterials}
+    context = {'form':form, 'currLect':currLect, 'assignedCourse':assignedCourse, 'learningMaterials':learningMaterials, 'getAssignedCourseID':getAssignedCourseID}
     return render(request, 'lecturer/lect_learning_material.html', context)
 
 @login_required(login_url='login')
-def deleteLearningMaterial(request, pk, course_pk, learnMat_pk):
+def deleteLearningMaterial(request, pk, assign_pk, learnMat_pk):
     currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(id=course_pk)
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk) #get base_assignlecturer's id instead of assigned_lecturer_id
     learningMaterials = LearningMaterial.objects.get(id=learnMat_pk)
+
     if request.method == "POST":
         learningMaterials.delete()
-        return redirect('lect-learning-material', currLect.id, assignedCourse.id)
+        return redirect('lect-learning-material', currLect.id, getAssignedCourseID.id)
 
-    context = {'currLect':currLect, 'assignedCourse':assignedCourse, 'learningMaterials':learningMaterials}
+    context = {'currLect':currLect, 'getAssignedCourseID':getAssignedCourseID, 'learningMaterials':learningMaterials}
     return render(request, 'lecturer/delete_learning_material.html', context)
 
 

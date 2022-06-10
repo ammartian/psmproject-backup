@@ -271,6 +271,8 @@ class CreateLearningMaterial(forms.ModelForm):
     class Meta:
         model = LearningMaterial
         fields = ('assignedLect', 'title', 'file')
+
+        #set the field value
         
 
     #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
