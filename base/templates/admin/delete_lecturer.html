@@ -6,9 +6,9 @@
 
 <p>Are you sure you want to delete "{{lecturer}}"</p>
 
-<form action="{% url 'delete-lecturer' lecturer.id %}" method="POST">
+<form action="{% url 'delete-lecturer' currAdmin.id lecturer.id %}" method="POST">
     {% csrf_token %}
-    <a class="btn btn-primary" href="{% url 'manage-lecturer' %}">Cancel</a>
+    <a class="btn btn-primary" href="{% url 'manage-lecturer' currAdmin.id %}">Cancel</a>
 
     <input class="btn btn-danger" type="submit" name="Confirm">
 </form>

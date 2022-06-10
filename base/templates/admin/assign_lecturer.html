@@ -11,7 +11,7 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     {{form}}
-                    <td><input class="btn btn-primary" type="submit" name="submit" value="Add"></td>
+                    <td><input class="btn btn-primary" type="submit" name="submit" value="Assign"></td>
                 </form>
             </tr>
         </table>
@@ -29,16 +29,16 @@
                 <th>Lecturer</th>
                 <th>Action</th>
             </tr>
-            
+
             {% for assignedCourse in assignedCourses %}
             <tr>
-                <!--*view's object.model's object.attribute*-->
+                <!-- *view's object.model's object.attribute* -->
                     <td>{{assignedCourse.course.course_Name}}</td>
                     <td>{{assignedCourse.course.course_ID}}</td>
                     <td>{{assignedCourse.lecturer_assigned.name}}</td>
                 <td>
-                    <a class="btn btn-primary" href="{% url 'update-assignedLecturer' currAdmin.id course.id assignedCourse.id %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'delete-assignedLecturer' currAdmin.id course.id assignedCourse.id %}">Delete</a>
+                    <a class="btn btn-primary" href="{% url 'update-assignedLecturer' currAdmin.id assignedCourse.id%}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete-assignedLecturer' currAdmin.id assignedCourse.id%}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

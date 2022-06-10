@@ -36,7 +36,6 @@
                 <th>Name</th>
                 <th>Course ID</th>
                 <th>Credit</th>
-                <th>Lecturer</th>
                 <th>Action</th>
             </tr>
             
@@ -46,10 +45,6 @@
                     <td>{{course.course_Name}}</td>
                     <td>{{course.course_ID}}</td>
                     <td>{{course.course_Credit}}</td>
-                
-                    <td>
-                        <a class="btn btn-primary" href="{% url 'assign-lecturer' currAdmin.id course.id%}">Assign</a>
-                    </td>
                 <!--<td>-->
                     <!--On edit use this select-->
                     <!--<select>    
@@ -70,8 +65,10 @@
                 </td>
             </tr>
             {% endfor %}
-            
         </table>
+
+        <h3>Assign Lecturers to Courses</h3>
+        <a class="btn btn-primary" href="{% url 'assign-lecturer' currAdmin.id %}">Assign</a>
     </div>
 </div>
 

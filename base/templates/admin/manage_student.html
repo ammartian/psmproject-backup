@@ -34,8 +34,8 @@
                 <td>{{student.unique_id}}</td>
                 <td>{{student.email}}</td>
                 <td>
-                    <a class="btn btn-primary" href="{% url 'update-student' student.id %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'delete-student' student.id %}">Delete</a>
+                    <a class="btn btn-primary" href="{% url 'update-student' currAdmin.id student.id %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete-student' currAdmin.id student.id %}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

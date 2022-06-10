@@ -34,8 +34,8 @@
                 <td>{{lecturer.unique_id}}</td>
                 <td>{{lecturer.email}}</td>
                 <td>
-                    <a class="btn btn-primary" href="{% url 'update-lecturer' lecturer.id %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'delete-lecturer' lecturer.id %}">Delete</a>
+                    <a class="btn btn-primary" href="{% url 'update-lecturer' currAdmin.id lecturer.id %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'delete-lecturer' currAdmin.id lecturer.id %}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

@@ -92,15 +92,22 @@ class createCourse(forms.ModelForm):
 class assignLecturertoCourse(forms.ModelForm):
 
     # disabled_fields = ('course',)
+    
+    #READ-ONLY FIELD
+    #course = forms.CharField(widget = forms.TextInput(attrs={'readonly':'readonly'}))
 
     class Meta:
         model = AssignLecturer
-        fields = '__all__'
+        fields = ('course', 'lecturer_assigned')
+        labels = {
+            'lecturer_assigned': ('Lecturer'),
+        }
 
     #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
     # def __init__(self, *args, **kwargs):
     #     super(assignLecturertoCourse, self).__init__(*args, **kwargs)
     #     for field in self.disabled_fields:
+    #         # self.fields[field].widget.attrs['disabled'] = 'disabled'
     #         self.fields[field].widget = HiddenInput()
 
 class selectedCourse(forms.ModelForm):
@@ -273,21 +280,21 @@ class CreateLearningMaterial(forms.ModelForm):
             self.fields[field].widget = HiddenInput()
 
 
-# #Create Assignment
-# class CreateAssignment(forms.ModelForm):
+#Create Assignment
+class CreateAssignment(forms.ModelForm):
 
-#     disabled_fields = ('course',)
+    # disabled_fields = ('assignedLect',)
 
-#     deadline = forms.DateTimeField(widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
+    deadline = forms.DateTimeField(widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
 
-#     class Meta:
-#         model = Assignment
-#         fields = ['course', 'name', 'deadline', 'file']
+    class Meta:
+        model = Assignment
+        fields = ['assignedLect', 'name', 'deadline', 'file']
         
 
-#     #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
-#     def __init__(self, *args, **kwargs):
-#         super(CreateAssignment, self).__init__(*args, **kwargs)
+    # #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+    # def __init__(self, *args, **kwargs):
+    #     super(CreateAssignment, self).__init__(*args, **kwargs)
         
-#         for field in self.disabled_fields:
-#             self.fields[field].widget = HiddenInput()
+    #     for field in self.disabled_fields:
+    #         self.fields[field].widget = HiddenInput()

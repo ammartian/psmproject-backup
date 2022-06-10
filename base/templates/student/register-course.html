@@ -15,12 +15,12 @@
                 <th>Credit</th>
                 <th>Action</th>
             </tr>
-            {% for course in courses %}
+            {% for assignedCourse in assignedCourses %}
             <tr>
-                <td>{{course.courseID}}</td>
-                <td>{{course.name}}</td>
-                <td>{{course.credit}}</td>
-                <td><a href="{% url 'register-course-confirm' currStudent.id course.id %}"><button class="btn btn-primary">Register</button></a></td>
+                <td>{{assignedCourse.course.course_Name}}</td>
+                <td>{{assignedCourse.course.course_ID}}</td>
+                <td>{{assignedCourse.course.course_Credit}}</td>
+                <td><a href="{% url 'register-course-confirm' currStudent.id assignedCourse.id %}"><button class="btn btn-primary">Register</button></a></td>
             </tr>
             {% endfor %}
         </table>
