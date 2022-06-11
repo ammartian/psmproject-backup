@@ -7,15 +7,22 @@
 <div class="row">
     <div class="col-10">
         <h3>Learning Material</h3>
+        <!--view.model's object.foreign key's model's object.attribute-->
+        <h5>Course: {{registeredCourses.assignedLect.course.course_Name}}</h5>
+        <h5>Learning Material Title: {{registeredCourses.assignedLect.assignedLect.title}}</h5>
+
         <table class="table table-striped table-bordered">
             <tr>
-                <th>Name</th>
+                <th>Name (need to filter this based on assigned course)</th>
                 <th>Action</th>
             </tr>
+
+            {% for getLearningMaterial in getLearningMaterials %}
             <tr>
-                <td></td>
+                <td>{{getLearningMaterial.title}}</td> <!--we're not getting this because id != assignedLecturers-->
                 <td><button class="btn btn-primary">Download</button></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>

@@ -285,7 +285,7 @@ class CreateLearningMaterial(forms.ModelForm):
 #Create Assignment
 class CreateAssignment(forms.ModelForm):
 
-    # disabled_fields = ('assignedLect',)
+    disabled_fields = ('assignedLect',)
 
     deadline = forms.DateTimeField(widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
 
@@ -294,9 +294,20 @@ class CreateAssignment(forms.ModelForm):
         fields = ['assignedLect', 'name', 'deadline', 'file']
         
 
-    # #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
-    # def __init__(self, *args, **kwargs):
-    #     super(CreateAssignment, self).__init__(*args, **kwargs)
+    #HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME
+    def __init__(self, *args, **kwargs):
+        super(CreateAssignment, self).__init__(*args, **kwargs)
         
-    #     for field in self.disabled_fields:
-    #         self.fields[field].widget = HiddenInput()
+        for field in self.disabled_fields:
+            self.fields[field].widget = HiddenInput()
+
+
+#Register Course
+class SelectedCourse(forms.ModelForm):
+
+    class Meta:
+        model = RegisterCourse
+        fields = "__all__"
+        #exclude = ['learningMaterial', 'assignment' ] 
+
+

@@ -183,9 +183,10 @@ class Assignment(models.Model):
 
 
 #REGISTERED COURSE MODELS
-# class RegisteredCourse(models.Model):
-#     course = models.ForeignKey(Course, unique=True, null=True, on_delete=models.SET_NULL)
-#     user = models.ForeignKey(User, unique=True, null=True, on_delete=models.SET_NULL)
-
-#     def __str__(self):
-#         return self.course
+class RegisterCourse(models.Model):
+    user = models.ForeignKey(User, limit_choices_to={'student': True}, null=True, on_delete=models.SET_NULL)
+    assignedLect = models.ForeignKey(AssignLecturer, null=True, on_delete=models.SET_NULL)
+    learningMaterial = models.ForeignKey(LearningMaterial, null=True, blank=True, on_delete=models.SET_NULL)
+    assignment = models.ForeignKey(Assignment, null=True, blank=True, on_delete=models.SET_NULL)
+    #quiz = models.ForeignKey(AssignLecturer, null=True, on_delete=models.SET_NULL)
+    #do i need to limit to student only?

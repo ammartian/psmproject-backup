@@ -1,0 +1,8 @@
+tonight to do:
+
+1. need to creat assign lecturer table?
+
+2.add to selected course
+ - student pk to
+ - create model for registered course/upgrade model to have registered student
+ - 

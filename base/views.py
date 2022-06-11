@@ -403,54 +403,59 @@ def deleteLearningMaterial(request, pk, assign_pk, learnMat_pk):
 
 
 @login_required(login_url='login')
-def lectAssignment(request, pk, course_pk):
-    currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(id=course_pk)
-    assignments = Assignment.objects.all()
-    form = CreateAssignment(initial={'course':assignedCourse})
+def lectAssignment(request, pk, assign_pk):
+    currLect = User.objects.get(id=pk) #5
+    assignedCourse = AssignLecturer.objects.filter(lecturer_assigned_id=currLect) #5 but id=4 ; use get instead of filter?
+    
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk) #get base_assignlecturer's id instead of assigned_lecturer_id
+    assignments =  Assignment.objects.filter(assignedLect_id=getAssignedCourseID) #filter by course but not lecturer
+
+    form = CreateAssignment(instance=getAssignedCourseID, initial={'assignedLect':getAssignedCourseID})
 
     if request.method == 'POST':
-        form = CreateAssignment(request.POST, request.FILES)
+        form = CreateAssignment(request.POST, request.FILES) #dont put instance in here
         if form.is_valid():
             form.save()
+        else:
+            print("Form invalid")
 
-    context = {'form':form, 'assignments':assignments, 'currLect':currLect, 'assignedCourse':assignedCourse}
+    context = {'form':form, 'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments, 'getAssignedCourseID':getAssignedCourseID}
     return render(request, 'lecturer/lect-assignment.html', context)
 
 @login_required(login_url='login')
-def updateAssignment(request, pk, course_pk, assignment_pk):
+def updateAssignment(request, pk, assign_pk, assignment_pk):
     currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(id=course_pk)
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk)
     assignments = Assignment.objects.get(id=assignment_pk)
     form = CreateAssignment(instance=assignments)
     if request.method == 'POST':
         form = CreateAssignment(request.POST, instance=assignments)
         if form.is_valid():
             form.save()
-            return redirect('lect-assignment', currLect.id, assignedCourse.id)
+            return redirect('lect-assignment', currLect.id, getAssignedCourseID.id)
 
-    context = {'form':form, 'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments}
+    context = {'form':form, 'currLect':currLect, 'getAssignedCourseID':getAssignedCourseID, 'assignments':assignments}
     return render(request, 'lecturer/update_assignment.html', context)
 
 @login_required(login_url='login')
-def deleteAssignment(request, pk, course_pk, assignment_pk):
+def deleteAssignment(request, pk, assign_pk, assignment_pk):
     currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(id=course_pk)
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk)
     assignments = Assignment.objects.get(id=assignment_pk)
     if request.method == "POST":
         assignments.delete()
-        return redirect('lect-assignment', currLect.id, assignedCourse.id)
+        return redirect('lect-assignment', currLect.id, getAssignedCourseID.id)
 
-    context = {'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments}
+    context = {'currLect':currLect, 'getAssignedCourseID':getAssignedCourseID, 'assignments':assignments}
     return render(request, 'lecturer/delete_assignment.html', context)
 
 @login_required(login_url='login')
-def lectAssignmentSubmitted(request, pk, course_pk, assignment_pk):
+def lectAssignmentSubmitted(request, pk, assign_pk, assignment_pk):
     currLect = User.objects.get(id=pk)
-    assignedCourse = Course.objects.get(id=course_pk)
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk)
     assignments = Assignment.objects.get(id=assignment_pk)
 
-    context = {'currLect':currLect, 'assignedCourse':assignedCourse, 'assignments':assignments}
+    context = {'currLect':currLect, 'getAssignedCourseID':getAssignedCourseID, 'assignments':assignments}
     return render(request, 'lecturer/lect-assignment-submitted.html', context)
 
 @login_required(login_url='login')
@@ -486,8 +491,9 @@ def lectQuizAnswered(request):
 @login_required(login_url='login')
 def studentDashboard(request, pk):
     currStudent = User.objects.get(id=pk)
-    context = {'currStudent':currStudent}
-    context = {}
+    registeredCourses = RegisterCourse.objects.filter(user_id=currStudent) #to fetch registered course
+
+    context = {'currStudent':currStudent,'registeredCourses':registeredCourses}
     return render(request, 'student/student_dashboard.html', context)
 
 #fetch course or fetch assignedlect <-look up on this
@@ -499,25 +505,38 @@ def registerCourse(request, pk):
     context = {'currStudent':currStudent, 'assignedCourses':assignedCourses,}
     return render(request, 'student/register-course.html', context)
 
-
+#PROBLEM: Student can register same course twice, change to one to one field?
 @login_required(login_url='login')
-def registerCourseConfirm(request, pk, course_pk):
+def registerCourseConfirm(request, pk, assign_pk):
     currStudent = User.objects.get(id=pk)
-    selectedCourse = AssignLecturer.objects.get(id=course_pk)
+    assignedCourses = AssignLecturer.objects.get(id=assign_pk) #(7)
 
-    # form = selectedCourse(instance=courses)
+    learningMaterials =  LearningMaterial.objects.filter(assignedLect_id=assignedCourses) #(7)
+    assignments =  Assignment.objects.filter(assignedLect_id=assignedCourses) #(7)
 
-    # if request.method == "POST":
-    #     form = selectedCourse(request.POST, instance=courses)
-    #     if form.is_valid():
-    #         form.save()
+    form = SelectedCourse(instance=assignedCourses, initial={'user':currStudent, 'assignedLect':assignedCourses, 'learningMaterial':assignedCourses, 'assignment':assignedCourses})
 
-    context = {'currStudent':currStudent, 'selectedCourse': selectedCourse}
+    if request.method == "POST":
+        form = SelectedCourse(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('register-course', currStudent.id)
+
+    context = {'form':form, 'currStudent':currStudent, 'assignedCourses': assignedCourses, 'learningMaterials':learningMaterials, 'assignments':assignments}
     return render(request, 'student/register_course_confirm.html', context)
 
 @login_required(login_url='login')
-def courseDetails(request):
-    context = {}
+def courseDetails(request, pk, course_pk):
+    currStudent = User.objects.get(id=pk)
+    registeredCourses = RegisterCourse.objects.get(id=course_pk) #(2) note: we can also take user_id or lectassigned_id from here
+    # assignedLecturers = AssignLecturer.objects.all() #(7) <- what we want
+    getLearningMaterials = LearningMaterial.objects.all()
+    # assignedLecturers = RegisterCourse.objects.all() #(7) so we can fetch 7 later
+    # learningMaterials = AssignLecturer.objects.filter(id=assignedLecturers)
+    # getLearnMaterials = LearningMaterial.objects.filter(assignedLect_id=learningMaterials)
+
+
+    context = {'currStudent':currStudent, 'registeredCourses':registeredCourses, 'getLearningMaterials':getLearningMaterials}
     return render(request, 'student/course-details.html', context)
 
 @login_required(login_url='login')

@@ -11,7 +11,7 @@
 
             <!-- HIDE THE INPUT AND JUST USE <p> TO DISPLAY THE COURSE NAME -->
 
-            <p>Course: {{assignedCourse.name}}</p>
+            <p>Course: {{getAssignedCourseID.course.course_Name}}</p>
             {{form.as_p}}
             <!-- <label>Name</label>
             <input type="text" id="assignmentName" name="assignmentName">
@@ -42,9 +42,9 @@
                 <td>{{ assignment.name }}</td>
                 <td>{{ assignment.deadline }}</td>
                 <td><a href="{{ assignment.file.url }}" target="_blank">{{ assignment.file }}</a></td>
-                <td><a href="{% url 'lect-assignment-submitted' currLect.id assignedCourse.id assignment.id %}" class="btn btn-primary">View</a> 
-                    <a href="{% url 'update-assignment' currLect.id assignedCourse.id assignment.id %}"><button class="btn btn-secondary">Edit</button></a>
-                    <a href="{% url 'delete-assignment' currLect.id assignedCourse.id assignment.id %}"><button class="btn btn-danger">Delete</button></a></td>
+                <td><a href="{% url 'lect-assignment-submitted' currLect.id getAssignedCourseID.id assignment.id %}" class="btn btn-primary">View</a> 
+                    <a href="{% url 'update-assignment' currLect.id getAssignedCourseID.id assignment.id %}"><button class="btn btn-secondary">Edit</button></a>
+                    <a href="{% url 'delete-assignment' currLect.id getAssignedCourseID.id assignment.id %}"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
             {% endfor %}
         </table>
