@@ -184,9 +184,13 @@ class Assignment(models.Model):
 
 #REGISTERED COURSE MODELS
 class RegisterCourse(models.Model):
-    user = models.ForeignKey(User, limit_choices_to={'student': True}, null=True, on_delete=models.SET_NULL)
+    student = models.ForeignKey(User, limit_choices_to={'student': True}, null=True, on_delete=models.SET_NULL)
     assignedLect = models.ForeignKey(AssignLecturer, null=True, on_delete=models.SET_NULL)
-    learningMaterial = models.ForeignKey(LearningMaterial, null=True, blank=True, on_delete=models.SET_NULL)
-    assignment = models.ForeignKey(Assignment, null=True, blank=True, on_delete=models.SET_NULL)
-    #quiz = models.ForeignKey(AssignLecturer, null=True, on_delete=models.SET_NULL)
-    #do i need to limit to student only?
+
+
+#SUBMIT ASSIGNMENT MODELS
+class AssignmentSubmission(models.Model):
+    assignment = models.ForeignKey(Assignment, null=True, on_delete=models.SET_NULL)
+    course_registered = models.ForeignKey(RegisterCourse, null=True, on_delete=models.SET_NULL)
+    submit_file = models.FileField(upload_to='submitted files/')
+    submit_datetime = models.DateTimeField(auto_now_add=True, null=True)

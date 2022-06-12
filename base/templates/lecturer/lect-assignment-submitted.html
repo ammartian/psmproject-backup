@@ -16,20 +16,25 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="col-10">
         <table class="table table-striped table-bordered">
             <tr>
                 <th>Student Name</th>
                 <th>Student ID</th>
+                <th>Submit Date and Time</th>
                 <th>File</th>
+                <th>Action</th>
             </tr>
+
+            {% for submittedAssignment in submittedAssignments %}
             <tr>
-                <td></td>
-                <td></td>
-                <td><button class="btn btn-primary">Download</button></td>
+                <td>{{submittedAssignment.course_registered.student.name}}</td>
+                <td>{{submittedAssignment.course_registered.student.unique_id}}</td>
+                <td>{{submittedAssignment.submit_file}}</td>
+                <td><a href="{{submittedAssignment.submit_file.url}}" target="_blank"><button class="btn btn-primary">Download</button></a></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>

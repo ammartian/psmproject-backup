@@ -311,3 +311,22 @@ class SelectedCourse(forms.ModelForm):
         #exclude = ['learningMaterial', 'assignment' ] 
 
 
+#Submit Assignment
+class SubmitAssignment(forms.ModelForm):
+    
+    disabled_fields = ('assignment', 'course_registered')
+
+    class Meta:
+        model = AssignmentSubmission
+        fields = "__all__"
+        labels = {
+            'submit_file': ('Upload File'),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(SubmitAssignment, self).__init__(*args, **kwargs)
+        
+        for field in self.disabled_fields:
+            self.fields[field].widget = HiddenInput()
+
+

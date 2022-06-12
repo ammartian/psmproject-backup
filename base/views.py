@@ -427,9 +427,11 @@ def updateAssignment(request, pk, assign_pk, assignment_pk):
     currLect = User.objects.get(id=pk)
     getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk)
     assignments = Assignment.objects.get(id=assignment_pk)
+    
     form = CreateAssignment(instance=assignments)
+    
     if request.method == 'POST':
-        form = CreateAssignment(request.POST, instance=assignments)
+        form = CreateAssignment(request.POST)
         if form.is_valid():
             form.save()
             return redirect('lect-assignment', currLect.id, getAssignedCourseID.id)
@@ -452,10 +454,15 @@ def deleteAssignment(request, pk, assign_pk, assignment_pk):
 @login_required(login_url='login')
 def lectAssignmentSubmitted(request, pk, assign_pk, assignment_pk):
     currLect = User.objects.get(id=pk)
-    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk)
+    getAssignedCourseID = AssignLecturer.objects.get(id=assign_pk) #(6)
     assignments = Assignment.objects.get(id=assignment_pk)
 
-    context = {'currLect':currLect, 'getAssignedCourseID':getAssignedCourseID, 'assignments':assignments}
+    #registeredCourses = RegisterCourse.objects.filter(assignedLect_id=getAssignedCourseID)
+
+    registeredCourses = RegisterCourse.objects.get(assignedLect_id=getAssignedCourseID)
+    submittedAssignments = registeredCourses.assignmentsubmission_set.filter(assignment_id=assignment_pk)
+
+    context = {'currLect':currLect, 'getAssignedCourseID':getAssignedCourseID, 'assignments':assignments, 'registeredCourses':registeredCourses, 'submittedAssignments':submittedAssignments}
     return render(request, 'lecturer/lect-assignment-submitted.html', context)
 
 @login_required(login_url='login')
@@ -491,9 +498,9 @@ def lectQuizAnswered(request):
 @login_required(login_url='login')
 def studentDashboard(request, pk):
     currStudent = User.objects.get(id=pk)
-    registeredCourses = RegisterCourse.objects.filter(user_id=currStudent) #to fetch registered course
+    registeredCourses = RegisterCourse.objects.filter(student_id=currStudent) #to fetch registered course
 
-    context = {'currStudent':currStudent,'registeredCourses':registeredCourses}
+    context = {'currStudent':currStudent, 'registeredCourses':registeredCourses}
     return render(request, 'student/student_dashboard.html', context)
 
 #fetch course or fetch assignedlect <-look up on this
@@ -514,7 +521,7 @@ def registerCourseConfirm(request, pk, assign_pk):
     learningMaterials =  LearningMaterial.objects.filter(assignedLect_id=assignedCourses) #(7)
     assignments =  Assignment.objects.filter(assignedLect_id=assignedCourses) #(7)
 
-    form = SelectedCourse(instance=assignedCourses, initial={'user':currStudent, 'assignedLect':assignedCourses, 'learningMaterial':assignedCourses, 'assignment':assignedCourses})
+    form = SelectedCourse(instance=assignedCourses, initial={'student':currStudent, 'assignedLect':assignedCourses, 'learningMaterial':assignedCourses, 'assignment':assignedCourses})
 
     if request.method == "POST":
         form = SelectedCourse(request.POST)
@@ -526,23 +533,57 @@ def registerCourseConfirm(request, pk, assign_pk):
     return render(request, 'student/register_course_confirm.html', context)
 
 @login_required(login_url='login')
-def courseDetails(request, pk, course_pk):
-    currStudent = User.objects.get(id=pk)
-    registeredCourses = RegisterCourse.objects.get(id=course_pk) #(2) note: we can also take user_id or lectassigned_id from here
-    # assignedLecturers = AssignLecturer.objects.all() #(7) <- what we want
-    getLearningMaterials = LearningMaterial.objects.all()
-    # assignedLecturers = RegisterCourse.objects.all() #(7) so we can fetch 7 later
-    # learningMaterials = AssignLecturer.objects.filter(id=assignedLecturers)
-    # getLearnMaterials = LearningMaterial.objects.filter(assignedLect_id=learningMaterials)
+def courseDetails(request, pk, registeredCourse_pk, assignedLect):
+    currStudent = User.objects.get(id=pk) #(3)
+    registeredCourses = RegisterCourse.objects.get(id=registeredCourse_pk) #(1)
+    
+    #here
+    assignedlecturer = AssignLecturer.objects.get(id=assignedLect) #fetch assignedLect_id je
+    # objectname = parentobjectname.childmodelname_set.all()
+    learningmaterials = assignedlecturer.learningmaterial_set.all()
+    assignments = assignedlecturer.assignment_set.all()
 
-
-    context = {'currStudent':currStudent, 'registeredCourses':registeredCourses, 'getLearningMaterials':getLearningMaterials}
+    context = {'currStudent':currStudent, 'registeredCourses':registeredCourses, 'learningmaterials':learningmaterials, 'assignments':assignments}
     return render(request, 'student/course-details.html', context)
 
 @login_required(login_url='login')
-def studAssignmentDetails(request):
-    context = {}
+def studAssignmentDetails(request, pk, registeredCourse_pk, assignedLect, assignment_pk):
+    currStudent = User.objects.get(id=pk) #(3)
+    registeredCourses = RegisterCourse.objects.get(id=registeredCourse_pk)
+
+    assignedlecturer = AssignLecturer.objects.get(id=assignedLect) #fetch assignedLect_id je (6)
+    # objectname = parentobjectname.childmodelname_set.all()
+    assignment = assignedlecturer.assignment_set.get(id=assignment_pk)
+    
+    getAssignment = Assignment.objects.get(id=assignment_pk) #(4)
+    submittedAssignments = getAssignment.assignmentsubmission_set.filter() #this take all submitted assigment for that course 
+
+    form = SubmitAssignment(instance=assignment, initial={'assignment':assignment, 'course_registered':registeredCourses})
+
+    if request.method == "POST":
+        form = SubmitAssignment(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+    context = {'form':form, 'currStudent':currStudent, 'registeredCourses':registeredCourses, 'assignment':assignment, 'submittedAssignments':submittedAssignments}
     return render(request, 'student/stud-assignment-details.html', context)
+
+@login_required(login_url='login')
+def deleteSubmittedAssignment(request, pk, registeredCourse_pk, assignedLect, assignment_pk, submittedAssignment_pk):
+    currStudent = User.objects.get(id=pk) #(3)
+    registeredCourses = RegisterCourse.objects.get(id=registeredCourse_pk)
+    assignedlecturer = AssignLecturer.objects.get(id=assignedLect)
+    assignment = assignedlecturer.assignment_set.get(id=assignment_pk)
+
+    getAssignment = Assignment.objects.get(id=assignment_pk) #not needed
+    submittedAssignment = AssignmentSubmission.objects.get(id=submittedAssignment_pk)
+
+    if request.method == "POST":
+        submittedAssignment.delete()
+        return redirect('stud-assignment-details', currStudent.id, registeredCourses.id, registeredCourses.assignedLect.id, assignment.id)
+
+    context = {'currStudent':currStudent, 'registeredCourses':registeredCourses, 'assignedlecturer':assignedlecturer, 'assignment':assignment, 'getAssignment':getAssignment, 'submittedAssignment':submittedAssignment}
+    return render(request, 'student/delete-submitted-assignment.html', context)
 
 @login_required(login_url='login')
 def studQuizDetails(request):

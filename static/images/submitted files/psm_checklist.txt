@@ -1,0 +1,20 @@
+today to-dos:
+
+SOLUTION:
+Database Model Queries | Django (3.0) Crash Course Tutorials (pt 7)
+TIMESTAMP: 5:37
+- Reverse and query downwards without using filter method.
+- Use a related objects set. 
+- Returns all child models related to parent
+
+syntax:
+parent = ParentModel.objects.get(id=2)
+parent.childmodel_set.all()
+
+customer1 = Customer.objects.get(id=2)
+orders = customer1.order_set.all() <- get all order from customer 1
+
+- we can reverse this and search on parents
+syntax:
+order = Order.objects.first()
+print (order.customer.name) <- get the first customer that place order

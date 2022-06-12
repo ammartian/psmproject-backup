@@ -65,8 +65,9 @@ urlpatterns = [
     path('student_dashboard/<str:pk>/', views.studentDashboard, name="student-dashboard" ),
     path('register-course/<str:pk>/', views.registerCourse, name="register-course" ),
     path('register-course-confirm/<str:pk>/<str:assign_pk>/', views.registerCourseConfirm, name="register-course-confirm" ),
-    path('course-details/<str:pk>/<str:course_pk>/', views.courseDetails, name="course-details" ),
-    path('stud-assignment-details/', views.studAssignmentDetails, name="stud-assignment-details" ),
+    path('course-details/<str:pk>/<str:registeredCourse_pk>/<str:assignedLect>/', views.courseDetails, name="course-details" ),
+    path('stud-assignment-details/<str:pk>/<str:registeredCourse_pk>/<str:assignedLect>/<str:assignment_pk>/', views.studAssignmentDetails, name="stud-assignment-details" ),
+    path('delete-submitted-assignment/<str:pk>/<str:registeredCourse_pk>/<str:assignedLect>/<str:assignment_pk>/<str:submittedAssignment_pk>/', views.deleteSubmittedAssignment, name="delete-submitted-assignment"),
     path('stud-quiz-details/', views.studQuizDetails, name="stud-quiz-details" ),
 
 ]

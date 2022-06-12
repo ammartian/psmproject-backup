@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Delete Submitted Assignment Confirmation</h1>
+
+<p>Are you sure you want to delete "{{submittedAssignment.submit_file}}"</p>
+
+<form action="{% url 'delete-submitted-assignment' currStudent.id registeredCourses.id registeredCourses.assignedLect.id assignment.id submittedAssignment.id %}" method="POST">
+    {% csrf_token %}
+    <a class="btn btn-primary" href="{% url 'stud-assignment-details' currStudent.id registeredCourses.id registeredCourses.assignedLect.id assignment.id %}">Cancel</a>
+
+    <input class="btn btn-danger" type="submit" value="Confirm">
+</form>
+
+{% endblock %}

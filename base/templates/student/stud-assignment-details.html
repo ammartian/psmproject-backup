@@ -4,19 +4,25 @@
 
 <h1>Assignment Details</h1>
 
+<h2>Course: {{registeredCourses.assignedLect.course.course_Name}}</h2>
+
 <div class="row">
     <div class="col">
-        <label>Assignment: </label>
+        <p><strong>Assignment:</strong> {{assignment.name}}</p>
+
+        <p><strong>Deadline:</strong> {{assignment.deadline}}</p>
+
+        <p><strong>File:</strong> <a href="{{ assignment.file.url }}" target="_blank">{{assignment.file}}</a></p>
         <br>
-        <label>Deadline: </label>
-        <br>
-        <label>File: </label>
-        <br>
-        <button class="btn btn-primary">Download</button>
-        <br> <br>
-        <label>Upload Answer: </label>
-        <br>
-        <button class="btn btn-primary">Upload</button>
+
+        <!-- form here? -->
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
+        
     </div>
 </div>
 
@@ -28,13 +34,17 @@
                 <th>Submission Date and Time</th>
                 <th>Action</th>
             </tr>
+
+            {% for submittedAssignment in submittedAssignments %}
             <tr>
-                <td></td>
-                <td></td>
-                <td><button class="btn btn-danger">Delete</button></td>
+                <td>{{submittedAssignment.course_registered.student.name}}</td>
+                <td>{{submittedAssignment.submit_datetime}}</td>
+                <td><a href="{% url 'delete-submitted-assignment' currStudent.id registeredCourses.id registeredCourses.assignedLect.id assignment.id submittedAssignment.id %}"><button class="btn btn-danger">Delete</button></a></td>
             </tr>
+            {% endfor %}
         </table>
     </div>
 </div>
+
 
 {% endblock %}
